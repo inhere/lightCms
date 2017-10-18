@@ -11,21 +11,28 @@ namespace App\Http\Controllers;
 use LightCms\Web\Controller;
 
 /**
- * class HomeController
+ * class ErrorController
  */
-class HomeController extends BaseController
+class ErrorController extends BaseController
 {
     public function indexAction()
     {
-        $content = "hello, welcome!! this is " . __METHOD__;
-
-        // vd('$_REQUEST :', $_REQUEST, '$_GET :', $_GET);
-        $this->renderBody($content);
+        return $this->errorAction();
     }
 
-    public function testAction()
+    public function errorAction()
     {
-        vd(app()->input->get());
+        return $this->render('@lib/resources/views/500.tpl');
+    }
+
+    public function notFoundAction()
+    {
+        return $this->render('@lib/resources/views/404.tpl');
+    }
+
+    public function notAllowedAction()
+    {
+        return $this->render('@lib/resources/views/405.tpl');
     }
 
     public function env()

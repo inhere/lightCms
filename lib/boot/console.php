@@ -1,7 +1,10 @@
 <?php
 
 use LightCms\Console\App;
+use Inhere\Library\DI\ContainerManager;
 
 require BASE_PATH . '/vendor/autoload.php';
 
-$app = new App();
+$di = Sws::$di = ContainerManager::make();
+
+$app = new App($di);

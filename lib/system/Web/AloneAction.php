@@ -12,7 +12,7 @@ namespace LightCms\Web;
  * Class AloneAction
  * @package LightCms\Web
  */
-class AloneAction
+abstract class AloneAction
 {
     public $id;
 }
