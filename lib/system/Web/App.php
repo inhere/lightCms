@@ -8,11 +8,13 @@
 
 namespace LightCms\Web;
 
+use LightCms\Base\AppTrait;
+
 /**
  * Class App
  * @package LightCms\Web
  */
 class App
 {
-
+    use AppTrait;
 }
