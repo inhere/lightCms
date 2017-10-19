@@ -8,7 +8,7 @@
 
 namespace App\Http\Controllers;
 
-use LightCms\Web\Controller;
+use LightCms\Web\BaseController;
 
 /**
  * class ErrorController
@@ -33,32 +33,5 @@ class ErrorController extends BaseController
     public function notAllowedAction()
     {
         return $this->render('@lib/resources/views/405.tpl');
-    }
-
-    public function env()
-    {
-        Micro::$app->output->formatJson([
-            'phpVersion' => PHP_VERSION,
-            'env' => Micro::$app->config('env'),
-            'debug' => Micro::$app->isDebug(),
-        ]);
-    }
-
-    public function json()
-    {
-        Micro::logger()->trace('test info');
-
-        Micro::$app->output->json([
-            'code' => 0,
-            'msg' => 'successful!',
-            'data' => [
-                'name' => 'value',
-            ]
-        ]);
-    }
-
-    public function notFound()
-    {
-        echo "ohh!! page not found.";
     }
 }

@@ -4,19 +4,29 @@
  * User: inhere
  * Date: 2017-10-18
  * Time: 18:58
+ * @ref Slim Framework (https://slimframework.com) `Slim\App`
  */
 
 namespace LightCms\Web;
 
-use LightCms\Base\AppTrait;
+use Exception;
+use Inhere\Http\Body;
+use Inhere\Http\Headers;
+use Inhere\Http\Request;
+use Inhere\Library\Components\ErrorHandler;
 use Inhere\Library\DI\Container;
-use Throwable;
-use Closure;
-use InvalidArgumentException;
-use Psr\Container\ContainerInterface;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ServerRequestInterface;
+use Inhere\Library\Traits\MiddlewareAwareTrait;
+use Inhere\Route\ORouter;
+use Inhere\Route\RouterInterface;
+use LightCms\Base\AppTrait;
+use LightCms\Exceptions\MethodNotAllowedException;
+use LightCms\Exceptions\NotFoundException;
+use LightCms\Exceptions\RequestException;
+use LightCms\Helpers\HttpHelper;
+use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Throwable;
 
 /**
  * Class App
@@ -24,17 +34,23 @@ use Psr\Http\Message\ResponseInterface;
  */
 class App
 {
-    use AppTrait;
+    use AppTrait, MiddlewareAwareTrait;
 
     /**
-     * @param ContainerInterface|null $di
+     * Current version
+     * @var string
      */
-    public function __construct(ContainerInterface $di = null)
+    const VERSION = '0.0.1';
+
+    /**
+     * @param Container $di
+     */
+    public function __construct(Container $di = null)
     {
         \Sys::$app = $this;
-        $this->di = $di ?: new Container;
 
-        $di->register(new DefaultServicesProvider);
+        $this->di = $di ?: new Container;
+        $this->di->registerServiceProvider(new DefaultServicesProvider);
 
         $this->init();
     }
@@ -44,25 +60,25 @@ class App
         $timeZone = $this->get('config')->get('timeZone', 'UTC');
 
         date_default_timezone_set($timeZone);
+
+//        $errHandler = new ErrorHandler();
     }
 
+    /********************************************************************************
+     * request handle methods
+     *******************************************************************************/
+
+    /**
+     * @param bool $send
+     * @return ResponseInterface
+     */
     public function run($send = true)
     {
+        /** @var ResponseInterface $response */
         $response = $this->di->get('response');
-        $request = $this->di->get('request');
+        $response = $this->process($this->di->get('request'), $response);
 
-        $result = $this->get('routeDispatcher')->dispatch(parse_url($uri, PHP_URL_PATH), $method);
-
-        if (!$result instanceof Response) {
-            $content = $result ?: 'NO CONTENT TO DISPLAY';
-
-            $response = $context->getResponse();
-            $response->getBody()->write(is_string($content) ? $content : json_encode($content));
-        } else {
-            $response = $result;
-        }
-
-        if (!$send) {
+        if ($send) {
             $this->respond($response);
         }
 
@@ -70,48 +86,12 @@ class App
     }
 
     /**
-     * Pull route info for a request with a bad method to decide whether to
-     * return a not-found error (default) or a bad-method error, then run
-     * the handler for that error, returning the resulting response.
-     *
-     * Used for cases where an incoming request has an unrecognized method,
-     * rather than throwing an exception and not catching it all the way up.
-     *
-     * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
-     * @return ResponseInterface
-     */
-    protected function processInvalidMethod(ServerRequestInterface $request, ResponseInterface $response)
-    {
-        $router = $this->di->get('router');
-        if (is_callable([$request->getUri(), 'getBasePath']) && is_callable([$router, 'setBasePath'])) {
-            $router->setBasePath($request->getUri()->getBasePath());
-        }
-
-        $request = $this->dispatchRouterAndPrepareRoute($request, $router);
-        $routeInfo = $request->getAttribute('routeInfo', [RouterInterface::DISPATCH_STATUS => Dispatcher::NOT_FOUND]);
-
-        if ($routeInfo[RouterInterface::DISPATCH_STATUS] === Dispatcher::METHOD_NOT_ALLOWED) {
-            return $this->handleException(
-                new MethodNotAllowedException($request, $response, $routeInfo[RouterInterface::ALLOWED_METHODS]),
-                $request,
-                $response
-            );
-        }
-
-        return $this->handleException(new NotFoundException($request, $response), $request, $response);
-    }
-
-    /**
      * Process a request
-     *
      * This method traverses the application middleware stack and then returns the
      * resultant Response object.
-     *
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @return ResponseInterface
-     *
      * @throws Exception
      * @throws MethodNotAllowedException
      * @throws NotFoundException
@@ -120,7 +100,8 @@ class App
     {
         // Ensure basePath is set
         $router = $this->di->get('router');
-        if (is_callable([$request->getUri(), 'getBasePath']) && is_callable([$router, 'setBasePath'])) {
+
+        if (method_exists($router, 'setBasePath') && method_exists($request->getUri(), 'getBasePath')) {
             $router->setBasePath($request->getUri()->getBasePath());
         }
 
@@ -132,7 +113,8 @@ class App
 
         // Traverse middleware stack
         try {
-            $response = $this->callMiddlewareStack($request, $response);
+//            $response = $this->callMiddlewareStack($request, $response);
+            $response = $this->handle($request, $response);
         } catch (Exception $e) {
             $response = $this->handleException($e, $request, $response);
         } catch (Throwable $e) {
@@ -146,62 +128,11 @@ class App
 
     /**
      * Send the response the client
-     *
      * @param ResponseInterface $response
      */
     public function respond(ResponseInterface $response)
     {
-        // Send response
-        if (!headers_sent()) {
-            // Status
-            header(sprintf(
-                'HTTP/%s %s %s',
-                $response->getProtocolVersion(),
-                $response->getStatusCode(),
-                $response->getReasonPhrase()
-            ));
-
-            // Headers
-            foreach ($response->getHeaders() as $name => $values) {
-                foreach ($values as $value) {
-                    header(sprintf('%s: %s', $name, $value), false);
-                }
-            }
-        }
-
-        // Body
-        if (!$this->isEmptyResponse($response)) {
-            $body = $response->getBody();
-            if ($body->isSeekable()) {
-                $body->rewind();
-            }
-            $chunkSize = $this->di->get('config')->get('response.chunkSize');
-
-            $contentLength  = $response->getHeaderLine('Content-Length');
-            if (!$contentLength) {
-                $contentLength = $body->getSize();
-            }
-
-            if (isset($contentLength)) {
-                $amountToRead = $contentLength;
-                while ($amountToRead > 0 && !$body->eof()) {
-                    $data = $body->read(min($chunkSize, $amountToRead));
-                    echo $data;
-                    $amountToRead -= strlen($data);
-
-                    if (connection_status() != CONNECTION_NORMAL) {
-                        break;
-                    }
-                }
-            } else {
-                while (!$body->eof()) {
-                    echo $body->read($chunkSize);
-                    if (connection_status() != CONNECTION_NORMAL) {
-                        break;
-                    }
-                }
-            }
-        }
+        HttpHelper::respond($response, $this->di->get('config')->get('response'));
     }
 
     /**
@@ -222,37 +153,87 @@ class App
     }
 
     /**
-     * Perform a sub-request from within an application route
+     * Invoke application
      *
+     * This method implements the middleware interface. It receives
+     * Request and Response objects, and it returns a Response object
+     * after compiling the routes registered in the Router and dispatching
+     * the Request object to the appropriate Route callback routine.
+     *
+     * @param  ServerRequestInterface $request  The most recent Request object
+     * @param  ResponseInterface      $response The most recent Response object
+     *
+     * @return ResponseInterface
+     * @throws MethodNotAllowedException
+     * @throws NotFoundException
+     */
+    public function handle(ServerRequestInterface $request, ResponseInterface $response)
+    {
+        // Get the route info
+        $routeInfo = $request->getAttribute('routeInfo');
+
+        /** @var RouterInterface $router */
+        $router = $this->di->get('router');
+
+        // If router hasn't been dispatched or the URI changed then dispatch
+        if (null === $routeInfo || ($routeInfo['request'] !== [$request->getMethod(), (string) $request->getUri()])) {
+            $request = $this->dispatchRouterAndPrepareRoute($request, $router);
+            $routeInfo = $request->getAttribute('routeInfo');
+        }
+
+        unset($routeInfo['request']);
+
+        if ($routeInfo[0] === RouterInterface::FOUND) {
+            /** @see RouteDispatcher::dispatch() */
+            return $this->di->get('routeDispatcher')->dispatch($request, $response, $routeInfo);
+        }
+
+        if ($routeInfo[0] === RouterInterface::METHOD_NOT_ALLOWED) {
+            if (!$this->di->has('notAllowedHandler')) {
+                throw new MethodNotAllowedException($request, $response, $routeInfo[1]);
+            }
+
+            /** @var callable $notAllowedHandler */
+            $notAllowedHandler = $this->di->get('notAllowedHandler');
+            return $notAllowedHandler($request, $response, $routeInfo[2]);
+        }
+
+        if (!$this->di->has('notFoundHandler')) {
+            throw new NotFoundException($request, $response);
+        }
+
+        /** @var callable $notFoundHandler */
+        $notFoundHandler = $this->di->get('notFoundHandler');
+
+        return $notFoundHandler($request, $response);
+    }
+
+    /**
+     * Perform a sub-request from within an application route
      * This method allows you to prepare and initiate a sub-request, run within
      * the context of the current request. This WILL NOT issue a remote HTTP
      * request. Instead, it will route the provided URL, method, headers,
      * cookies, body, and server variables against the set of registered
      * application routes. The result response object is returned.
-     *
-     * @param  string            $method      The request method (e.g., GET, POST, PUT, etc.)
-     * @param  string            $path        The request URI path
-     * @param  string            $query       The request URI query string
-     * @param  array             $headers     The request headers (key-value array)
-     * @param  array             $cookies     The request cookies (key-value array)
-     * @param  string            $bodyContent The request body
-     * @param  ResponseInterface $response     The response object (optional)
+     * @param  string $method The request method (e.g., GET, POST, PUT, etc.)
+     * @param  string $path The request URI path
+     * @param  string $query The request URI query string
+     * @param  array $headersData The request headers (key-value array)
+     * @param  array $cookies The request cookies (key-value array)
+     * @param  string $bodyContent The request body
+     * @param  ResponseInterface $response The response object (optional)
      * @return ResponseInterface
      */
     public function subRequest(
-        $method,
-        $path,
-        $query = '',
-        array $headers = [],
-        array $cookies = [],
-        $bodyContent = '',
-        ResponseInterface $response = null
-    ) {
+        $method, $path, $query = '', array $headersData = [], array $cookies = [],
+        $bodyContent = '', ResponseInterface $response = null
+    )
+    {
         $env = $this->di->get('environment');
-        $uri = Uri::createFromEnvironment($env)->withPath($path)->withQuery($query);
-        $headers = new Headers($headers);
+        $uri = HttpHelper::createRequestUri($env)->withPath($path)->withQuery($query);
+        $headers = new Headers($headersData);
         $serverParams = $env->all();
-        $body = new Body(fopen('php://temp', 'r+'));
+        $body = new Body(fopen('php://temp', 'rb+'));
         $body->write($bodyContent);
         $body->rewind();
         $request = new Request($method, $uri, $headers, $cookies, $serverParams, $body);
@@ -261,42 +242,42 @@ class App
             $response = $this->di->get('response');
         }
 
-        return $this($request, $response);
+        return $this->handle($request, $response);
     }
 
     /**
      * Dispatch the router to find the route. Prepare the route for use.
-     *
-     * @param ServerRequestInterface $request
-     * @param RouterInterface        $router
+     * @param ServerRequestInterface|Request $request
+     * @param RouterInterface|ORouter $router
      * @return ServerRequestInterface
      */
     protected function dispatchRouterAndPrepareRoute(ServerRequestInterface $request, RouterInterface $router)
     {
-        $routeInfo = $router->dispatch($request);
+        $uriPath = '/' . ltrim($request->getUri()->getPath(), '/');
 
-        if ($routeInfo[0] === Dispatcher::FOUND) {
-            $routeArguments = [];
-            foreach ($routeInfo[2] as $k => $v) {
-                $routeArguments[$k] = urldecode($v);
-            }
-
-            $route = $router->lookupRoute($routeInfo[1]);
-            $route->prepare($request, $routeArguments);
-
-            // add route to the request's attributes in case a middleware or handler needs access to the route
-            $request = $request->withAttribute('route', $route);
+        // if 'filterFavicon' setting is TRUE
+        if ($uriPath === HttpHelper::FAV_ICON && $this->di->get('config')['filterFavicon']) {
+            $this->end('+ICON');
         }
 
-        $routeInfo['request'] = [$request->getMethod(), (string) $request->getUri()];
+        $routeInfo = $router->match($uriPath, $request->getMethod());
+
+        if ($routeInfo[0] === RouterInterface::FOUND) {
+            if (isset($routeInfo[2]['matches'])) {
+                $request->setAttributes($routeInfo[2]['matches']);
+            }
+
+            $request->setAttribute('routeOption', $routeInfo[2]['option']);
+        }
+
+        $routeInfo['request'] = [$request->getMethod(), (string)$request->getUri()];
 
         return $request->withAttribute('routeInfo', $routeInfo);
     }
 
     /**
      * Finalize response
-     *
-     * @param ResponseInterface $response
+     * @param ResponseInterface|MessageInterface $response
      * @return ResponseInterface
      */
     protected function finalize(ResponseInterface $response)
@@ -304,19 +285,20 @@ class App
         // stop PHP sending a Content-Type automatically
         ini_set('default_mimetype', '');
 
-        if ($this->isEmptyResponse($response)) {
+        if (HttpHelper::isEmptyResponse($response)) {
             return $response->withoutHeader('Content-Type')->withoutHeader('Content-Length');
         }
 
         // Add Content-Length header if `addContentLengthHeader` setting is set
         if ($this->get('config')->get('response.addContentLengthHeader')) {
             if (ob_get_length() > 0) {
-                throw new \RuntimeException("Unexpected data in output buffer. " .
-                    "Maybe you have characters before an opening <?php tag?");
+                throw new \RuntimeException('Unexpected data in output buffer. Maybe you have characters before an opening "<?php" tag?');
             }
+
             $size = $response->getBody()->getSize();
+
             if ($size !== null && !$response->hasHeader('Content-Length')) {
-                $response = $response->withHeader('Content-Length', (string) $size);
+                $response = $response->withHeader('Content-Length', (string)$size);
             }
         }
 
@@ -324,31 +306,11 @@ class App
     }
 
     /**
-     * Helper method, which returns true if the provided response must not output a body and false
-     * if the response could have a body.
-     *
-     * @see https://tools.ietf.org/html/rfc7231
-     *
-     * @param ResponseInterface $response
-     * @return bool
-     */
-    protected function isEmptyResponse(ResponseInterface $response)
-    {
-        if (method_exists($response, 'isEmpty')) {
-            return $response->isEmpty();
-        }
-
-        return in_array($response->getStatusCode(), [204, 205, 304], true);
-    }
-
-    /**
      * Call relevant handler from the Container if needed. If it doesn't exist,
      * then just re-throw.
-     *
      * @param  Exception $e
      * @param  ServerRequestInterface $request
      * @param  ResponseInterface $response
-     *
      * @return ResponseInterface
      * @throws Exception if a handler is needed and not found
      */
@@ -360,7 +322,7 @@ class App
         } elseif ($e instanceof NotFoundException) {
             $handler = 'notFoundHandler';
             $params = [$e->getRequest(), $e->getResponse(), $e];
-        } elseif ($e instanceof SlimException) {
+        } elseif ($e instanceof RequestException) {
             // This is a Stop exception and contains the response
             return $e->getResponse();
         } else {
@@ -371,6 +333,7 @@ class App
 
         if ($this->di->has($handler)) {
             $callable = $this->di->get($handler);
+
             // Call the registered handler
             return $callable(...$params);
         }
@@ -382,7 +345,6 @@ class App
     /**
      * Call relevant handler from the Container if needed. If it doesn't exist,
      * then just re-throw.
-     *
      * @param  Throwable $e
      * @param  ServerRequestInterface $request
      * @param  ResponseInterface $response
@@ -396,6 +358,7 @@ class App
 
         if ($this->di->has($handler)) {
             $callable = $this->di->get($handler);
+
             // Call the registered handler
             return $callable(...$params);
         }

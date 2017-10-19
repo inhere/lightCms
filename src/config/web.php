@@ -6,20 +6,22 @@
 use Inhere\Library\Helpers\Arr;
 use Inhere\Library\Web\ViewRenderer;
 use Inhere\Route\ORouter;
-use Inhere\Route\Dispatcher;
-use Overtrue\Pinyin\MemoryFileDictLoader;
-use Overtrue\Pinyin\Pinyin;
+use LightCms\Web\RouteDispatcher;
 
 return Arr::merge(require __DIR__ . '/_common.php', [
+
+    'displayErrorDetails' => false,
     'determineRouteBeforeAppMiddleware' => false,
 
+    'filterFavicon' => true,
+
     'response' => [
-        'chunkSize' => 1024,
+        'chunkSize' => 4096,
+        'httpVersion' => '1.1',
         'addContentLengthHeader' => true,
     ],
 
     'services' => [
-
         /**
          * http service
          */
@@ -32,17 +34,11 @@ return Arr::merge(require __DIR__ . '/_common.php', [
             ],
         ],
         'routeDispatcher' => [
-            'target' => Dispatcher::class,
+            'target' => RouteDispatcher::class,
+            'outputBuffering' => 'append',
             'config' => [
-                'filterFavicon' => true,
                 'dynamicAction' => true,
-                Dispatcher::ON_NOT_FOUND => '/404'
             ],
-            'matcher' => function ($path, $method) {
-                /** @var ORouter $router */
-                $router = \Sws::$app->get('httpRouter');
-                return $router->match($path, $method);
-            },
         ],
         'renderer' => [
             'target' => ViewRenderer::class,

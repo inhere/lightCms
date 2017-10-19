@@ -8,7 +8,7 @@
 
 namespace App\Http\Controllers;
 
-use LightCms\Web\Controller;
+use LightCms\Web\BaseController;
 
 /**
  * class HomeController
@@ -17,18 +17,18 @@ class HomeController extends BaseController
 {
     public function indexAction()
     {
-        $content = "hello, welcome!! this is " . __METHOD__;
-
-        // vd('$_REQUEST :', $_REQUEST, '$_GET :', $_GET);
-        $this->renderBody($content);
+        $content = 'hello, welcome!! this is ' . __METHOD__;
+//de(\Sys::get('config')->all());
+         d(\Sys::get('logger'));
+        return $this->renderContent($content);
     }
 
     public function testAction()
     {
-        vd(app()->input->get());
+        echo 'hello';
     }
 
-    public function env()
+    public function configAction()
     {
         Micro::$app->output->formatJson([
             'phpVersion' => PHP_VERSION,
@@ -39,7 +39,7 @@ class HomeController extends BaseController
 
     public function json()
     {
-        Micro::logger()->trace('test info');
+        \Sys::trace('test info');
 
         Micro::$app->output->json([
             'code' => 0,
@@ -48,10 +48,5 @@ class HomeController extends BaseController
                 'name' => 'value',
             ]
         ]);
-    }
-
-    public function notFound()
-    {
-        echo "ohh!! page not found.";
     }
 }

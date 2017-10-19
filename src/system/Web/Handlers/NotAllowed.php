@@ -1,21 +1,20 @@
 <?php
 /**
  * Slim Framework (https://slimframework.com)
- *
  * @link      https://github.com/slimphp/Slim
  * @copyright Copyright (c) 2011-2017 Josh Lockhart
  * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
+
 namespace LightCms\Web\Handlers;
 
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
 use Inhere\Http\Body;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use UnexpectedValueException;
 
 /**
  * Default Slim application not allowed handler
- *
  * It outputs a simple message in either JSON, XML or HTML based on the
  * Accept header.
  */
@@ -23,11 +22,9 @@ class NotAllowed extends AbstractHandler
 {
     /**
      * Invoke error handler
-     *
-     * @param  ServerRequestInterface $request  The most recent Request object
-     * @param  ResponseInterface      $response The most recent Response object
-     * @param  string[]               $methods  Allowed HTTP methods
-     *
+     * @param  ServerRequestInterface $request The most recent Request object
+     * @param  ResponseInterface $response The most recent Response object
+     * @param  string[] $methods Allowed HTTP methods
      * @return ResponseInterface
      * @throws UnexpectedValueException
      */
@@ -58,21 +55,20 @@ class NotAllowed extends AbstractHandler
             }
         }
 
-        $body = new Body(fopen('php://temp', 'r+'));
+        $body = new Body(fopen('php://temp', 'rb+'));
         $body->write($output);
         $allow = implode(', ', $methods);
 
         return $response
-                ->withStatus($status)
-                ->withHeader('Content-type', $contentType)
-                ->withHeader('Allow', $allow)
-                ->withBody($body);
+            ->withStatus($status)
+            ->withHeader('Content-type', $contentType)
+            ->withHeader('Allow', $allow)
+            ->withBody($body);
     }
 
     /**
      * Render PLAIN not allowed message
-     *
-     * @param  array                  $methods
+     * @param  array $methods
      * @return string
      */
     protected function renderPlainNotAllowedMessage($methods)
@@ -84,8 +80,7 @@ class NotAllowed extends AbstractHandler
 
     /**
      * Render JSON not allowed message
-     *
-     * @param  array                  $methods
+     * @param  array $methods
      * @return string
      */
     protected function renderJsonNotAllowedMessage($methods)
@@ -97,8 +92,7 @@ class NotAllowed extends AbstractHandler
 
     /**
      * Render XML not allowed message
-     *
-     * @param  array                  $methods
+     * @param  array $methods
      * @return string
      */
     protected function renderXmlNotAllowedMessage($methods)
@@ -110,8 +104,7 @@ class NotAllowed extends AbstractHandler
 
     /**
      * Render HTML not allowed message
-     *
-     * @param  array                  $methods
+     * @param  array $methods
      * @return string
      */
     protected function renderHtmlNotAllowedMessage($methods)

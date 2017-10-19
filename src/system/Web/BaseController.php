@@ -30,6 +30,14 @@ abstract class BaseController
         $this->id = $id ?: get_class($this);
     }
 
+    /**
+     * @param string $action
+     */
+    public function init(string $action)
+    {
+        $this->action = $action;
+    }
+
     protected function resolveView(string $view)
     {
         return \Sys::alias($view);

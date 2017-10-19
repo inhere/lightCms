@@ -1,21 +1,20 @@
 <?php
 /**
  * Slim Framework (https://slimframework.com)
- *
  * @link      https://github.com/slimphp/Slim
  * @copyright Copyright (c) 2011-2017 Josh Lockhart
  * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
+
 namespace LightCms\Web\Handlers;
 
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
 use Inhere\Http\Body;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use UnexpectedValueException;
 
 /**
  * Default Slim application not found handler.
- *
  * It outputs a simple message in either JSON, XML or HTML based on the
  * Accept header.
  */
@@ -23,10 +22,8 @@ class NotFound extends AbstractHandler
 {
     /**
      * Invoke not found handler
-     *
-     * @param  ServerRequestInterface $request  The most recent Request object
-     * @param  ResponseInterface      $response The most recent Response object
-     *
+     * @param  ServerRequestInterface $request The most recent Request object
+     * @param  ResponseInterface $response The most recent Response object
      * @return ResponseInterface
      * @throws UnexpectedValueException
      */
@@ -51,18 +48,17 @@ class NotFound extends AbstractHandler
                 throw new UnexpectedValueException('Cannot render unknown content type ' . $contentType);
         }
 
-        $body = new Body(fopen('php://temp', 'r+'));
+        $body = new Body(fopen('php://temp', 'rb+'));
         $body->write($output);
 
         return $response->withStatus(404)
-                        ->withHeader('Content-Type', $contentType)
-                        ->withBody($body);
+            ->withHeader('Content-Type', $contentType)
+            ->withBody($body);
     }
 
     /**
      * Return a response for application/json content not found
-     *
-     * @return ResponseInterface
+     * @return ResponseInterface|string
      */
     protected function renderJsonNotFoundOutput()
     {
@@ -71,8 +67,7 @@ class NotFound extends AbstractHandler
 
     /**
      * Return a response for xml content not found
-     *
-     * @return ResponseInterface
+     * @return ResponseInterface|string
      */
     protected function renderXmlNotFoundOutput()
     {
@@ -81,14 +76,13 @@ class NotFound extends AbstractHandler
 
     /**
      * Return a response for text/html content not found
-     *
-     * @param  ServerRequestInterface $request  The most recent Request object
-     *
-     * @return ResponseInterface
+     * @param  ServerRequestInterface $request The most recent Request object
+     * @return ResponseInterface|string
      */
     protected function renderHtmlNotFoundOutput(ServerRequestInterface $request)
     {
-        $homeUrl = (string)($request->getUri()->withPath('')->withQuery('')->withFragment(''));
+        $homeUrl = (string)$request->getUri()->withPath('')->withQuery('')->withFragment('');
+
         return <<<END
 <html>
     <head>

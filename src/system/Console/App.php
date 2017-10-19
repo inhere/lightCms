@@ -4,13 +4,14 @@ namespace LightCms\Console;
 
 use Inhere\Console\Application;
 use Inhere\Library\DI\Container;
+use LightCms\Base\AppInterface;
 use LightCms\Base\AppTrait;
 
 /**
  * Class ConsoleApp
  * @package LightCms\Console
  */
-class App extends Application
+class App extends Application implements AppInterface
 {
     use AppTrait;
 
@@ -37,7 +38,8 @@ class App extends Application
 
         parent::__construct([
             'name' => 'LightCms Console',
-            'version' => '0.0.1'
+            'version' => '0.0.1',
+            'publishAt' => '2017.10.19',
         ]);
 
         // $config->loadArray($this->config);
@@ -69,4 +71,5 @@ class App extends Application
     {
         return $this->command($name, $handler);
     }
+
 }

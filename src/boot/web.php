@@ -4,7 +4,7 @@ require BASE_PATH . '/vendor/autoload.php';
 
 use Inhere\Library\DI\ContainerManager;
 use Inhere\Library\Collections\Configuration;
-use LightCms\Console\App;
+use LightCms\Web\App;
 
 /** @var Inhere\Library\DI\Container $di */
 $di = Sys::$di = ContainerManager::make();
@@ -12,9 +12,10 @@ $di = Sys::$di = ContainerManager::make();
 // register some service components
 $di->set('config', function () {
     return Configuration::makeByEnv(
-        dirname(__DIR__) . '/.env', // locFile
+        BASE_PATH . '/.env', // locFile
         dirname(__DIR__)  . '/config/web.php', // baseFile
-        dirname(__DIR__)  . '/config/app/{env}.php' // envFile
+        dirname(__DIR__)  . '/config/web/{env}.php', // envFile
+        true
     );
 });
 
@@ -22,5 +23,8 @@ $di->set('config', function () {
 $di->sets($di['config']->remove('services'));
 
 $app = new App($di);
+
+// load routes
+require dirname(__DIR__) . '/app/Http/routes.php';
 
 $app->run();

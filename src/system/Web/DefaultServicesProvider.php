@@ -7,25 +7,20 @@
  */
 namespace LightCms\Web;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use LightCms\Web\Handlers\PhpError;
-use LightCms\Web\Handlers\Error;
-use LightCms\Web\Handlers\NotFound;
-use LightCms\Web\Handlers\NotAllowed;
-use LightCms\Web\Handlers\Strategies\RequestResponse;
-
-use Inhere\Http\Environment;
 use Inhere\Http\Headers;
-use Inhere\Http\Request;
 use Inhere\Http\Response;
-use Inhere\Route\ORouter;
 use Inhere\Library\DI\Container;
 use Inhere\Library\DI\ServiceProviderInterface;
-
-use Slim\Interfaces\CallableResolverInterface;
-use Slim\Interfaces\Http\EnvironmentInterface;
-use Slim\Interfaces\InvocationStrategyInterface;
+use Inhere\Library\Web\Environment;
+use LightCms\Base\CallableResolver;
+use LightCms\Base\CallableResolverInterface;
+use LightCms\Helpers\HttpHelper;
+use LightCms\Web\Handlers\Error;
+use LightCms\Web\Handlers\NotAllowed;
+use LightCms\Web\Handlers\NotFound;
+use LightCms\Web\Handlers\PhpError;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Slim's default Service Provider.
@@ -43,7 +38,7 @@ class DefaultServicesProvider implements ServiceProviderInterface
             /**
              * This service MUST return a shared instance
              * of \Slim\Interfaces\Http\EnvironmentInterface.
-             * @return EnvironmentInterface
+             * @return Environment
              */
             $di['environment'] = function () {
                 return new Environment($_SERVER);
@@ -57,7 +52,7 @@ class DefaultServicesProvider implements ServiceProviderInterface
              * @return ServerRequestInterface
              */
             $di['request'] = function ($di) {
-                return Request::createFromEnvironment($di->get('environment'));
+                return HttpHelper::createRequest($di->get('environment'));
             };
         }
 
@@ -71,41 +66,18 @@ class DefaultServicesProvider implements ServiceProviderInterface
                 $headers = new Headers(['Content-Type' => 'text/html; charset=UTF-8']);
                 $response = new Response(200, $headers);
 
-                return $response->withProtocolVersion($di->get('settings')['httpVersion']);
+                return $response->withProtocolVersion($di->get('config')->get('response.httpVersion'));
             };
         }
 
-        if (!isset($di['router'])) {
-            /**
-             * This service MUST return a SHARED instance
-             * of \Slim\Interfaces\RouterInterface.
-             * @param Container $di
-             * @return RouterInterface
-             */
-            $di['router'] = function ($di) {
-                $routerCacheFile = false;
-                if (isset($di->get('settings')['routerCacheFile'])) {
-                    $routerCacheFile = $di->get('settings')['routerCacheFile'];
-                }
-
-
-                $router = (new Router)->setCacheFile($routerCacheFile);
-                if (method_exists($router, 'setContainer')) {
-                    $router->setContainer($di);
-                }
-
-                return $router;
-            };
-        }
-
-        if (!isset($di['foundHandler'])) {
+        if (!isset($di['routeDispatcher'])) {
             /**
              * This service MUST return a SHARED instance
              * of \Slim\Interfaces\InvocationStrategyInterface.
-             * @return InvocationStrategyInterface
+             * @return RouteDispatcher
              */
-            $di['foundHandler'] = function () {
-                return new RequestResponse;
+            $di['routeDispatcher'] = function () {
+                return new RouteDispatcher();
             };
         }
 
@@ -122,7 +94,7 @@ class DefaultServicesProvider implements ServiceProviderInterface
              * @return callable
              */
             $di['phpErrorHandler'] = function ($di) {
-                return new PhpError($di->get('settings')['displayErrorDetails']);
+                return new PhpError($di->get('config')['displayErrorDetails']);
             };
         }
 
@@ -139,7 +111,7 @@ class DefaultServicesProvider implements ServiceProviderInterface
              * @return callable
              */
             $di['errorHandler'] = function ($di) {
-                return new Error($di->get('settings')['displayErrorDetails']);
+                return new Error($di->get('config')['displayErrorDetails']);
             };
         }
 
@@ -176,7 +148,7 @@ class DefaultServicesProvider implements ServiceProviderInterface
 
         if (!isset($di['callableResolver'])) {
             /**
-             * Instance of \Slim\Interfaces\CallableResolverInterface
+             * Instance of CallableResolverInterface
              * @param Container $di
              * @return CallableResolverInterface
              */

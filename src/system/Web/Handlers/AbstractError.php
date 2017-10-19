@@ -1,11 +1,11 @@
 <?php
 /**
  * Slim Framework (https://slimframework.com)
- *
  * @link      https://github.com/slimphp/Slim
  * @copyright Copyright (c) 2011-2017 Josh Lockhart
  * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
+
 namespace LightCms\Web\Handlers;
 
 /**
@@ -20,19 +20,16 @@ abstract class AbstractError extends AbstractHandler
 
     /**
      * Constructor
-     *
      * @param bool $displayErrorDetails Set to true to display full details
      */
     public function __construct($displayErrorDetails = false)
     {
-        $this->displayErrorDetails = (bool) $displayErrorDetails;
+        $this->displayErrorDetails = (bool)$displayErrorDetails;
     }
 
     /**
      * Write to the error log if displayErrorDetails is false
-     *
      * @param \Exception|\Throwable $throwable
-     *
      * @return void
      */
     protected function writeToErrorLog($throwable)
@@ -55,9 +52,7 @@ abstract class AbstractError extends AbstractHandler
 
     /**
      * Render error as Text.
-     *
      * @param \Exception|\Throwable $throwable
-     *
      * @return string
      */
     protected function renderThrowableAsText($throwable)
@@ -89,7 +84,6 @@ abstract class AbstractError extends AbstractHandler
 
     /**
      * Wraps the error_log function so that this can be easily tested
-     *
      * @param $message
      */
     protected function logError($message)

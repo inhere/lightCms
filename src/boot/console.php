@@ -1,12 +1,22 @@
 <?php
 
-use LightCms\Console\App;
+use Inhere\Library\Collections\Configuration;
 use Inhere\Library\DI\ContainerManager;
+use LightCms\Console\App;
 
 require BASE_PATH . '/vendor/autoload.php';
 
 /** @var Inhere\Library\DI\Container $di */
 $di = Sys::$di = ContainerManager::make();
+
+// register some service components
+$di->set('config', function () {
+    return Configuration::makeByEnv(
+        BASE_PATH . '/.env', // locFile
+        dirname(__DIR__)  . '/config/console.php', // baseFile
+        dirname(__DIR__)  . '/config/console/{env}.php' // envFile
+    );
+});
 
 $app = new App($di);
 

@@ -1,21 +1,20 @@
 <?php
 /**
  * Slim Framework (https://slimframework.com)
- *
  * @link      https://github.com/slimphp/Slim
  * @copyright Copyright (c) 2011-2017 Josh Lockhart
  * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
+
 namespace LightCms\Web\Handlers;
 
+use Inhere\Http\Body;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Inhere\Http\Body;
 use UnexpectedValueException;
 
 /**
  * Default Slim application error handler for PHP 7+ Throwables
- *
  * It outputs the error message and diagnostic information in either JSON, XML,
  * or HTML based on the Accept header.
  */
@@ -23,11 +22,9 @@ class PhpError extends AbstractError
 {
     /**
      * Invoke error handler
-     *
-     * @param ServerRequestInterface $request   The most recent Request object
-     * @param ResponseInterface      $response  The most recent Response object
-     * @param \Throwable             $error     The caught Throwable object
-     *
+     * @param ServerRequestInterface $request The most recent Request object
+     * @param ResponseInterface $response The most recent Response object
+     * @param \Throwable $error The caught Throwable object
      * @return ResponseInterface
      * @throws UnexpectedValueException
      */
@@ -53,25 +50,23 @@ class PhpError extends AbstractError
 
         $this->writeToErrorLog($error);
 
-        $body = new Body(fopen('php://temp', 'r+'));
+        $body = new Body(fopen('php://temp', 'rb+'));
         $body->write($output);
 
         return $response
-                ->withStatus(500)
-                ->withHeader('Content-type', $contentType)
-                ->withBody($body);
+            ->withStatus(500)
+            ->withHeader('Content-type', $contentType)
+            ->withBody($body);
     }
 
     /**
      * Render HTML error page
-     *
      * @param \Throwable $error
-     *
      * @return string
      */
     protected function renderHtmlErrorMessage(\Throwable $error)
     {
-        $title = 'Slim Application Error';
+        $title = 'Application Runtime Error(Throwable)';
 
         if ($this->displayErrorDetails) {
             $html = '<p>The application could not run because of the following error:</p>';
@@ -86,11 +81,15 @@ class PhpError extends AbstractError
             $html = '<p>A website error has occurred. Sorry for the temporary inconvenience.</p>';
         }
 
-        $output = sprintf(
-            "<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'>" .
-            "<title>%s</title><style>body{margin:0;padding:30px;font:12px/1.5 Helvetica,Arial,Verdana," .
-            "sans-serif;}h1{margin:0;font-size:48px;font-weight:normal;line-height:48px;}strong{" .
-            "display:inline-block;width:65px;}</style></head><body><h1>%s</h1>%s</body></html>",
+        $output = sprintf(<<<EOF
+<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+<title>%s</title><style>body{margin:0;padding:30px;font:14px/1.5 Helvetica,Arial,Verdana,sans-serif;}
+h1{margin:0;font-size:48px;font-weight:normal;line-height:48px;}
+strong{display:inline-block;width:65px;}
+pre{background-color: #f6f8fa;border-radius: 3px;padding: 16px;}
+</style></head><body><h1>%s</h1>%s</body></html>
+EOF
+            ,
             $title,
             $title,
             $html
@@ -101,32 +100,30 @@ class PhpError extends AbstractError
 
     /**
      * Render error as HTML.
-     *
      * @param \Throwable $error
-     *
      * @return string
      */
     protected function renderHtmlError(\Throwable $error)
     {
         $html = sprintf('<div><strong>Type:</strong> %s</div>', get_class($error));
 
-        if (($code = $error->getCode())) {
+        if ($code = $error->getCode()) {
             $html .= sprintf('<div><strong>Code:</strong> %s</div>', $code);
         }
 
-        if (($message = $error->getMessage())) {
+        if ($message = $error->getMessage()) {
             $html .= sprintf('<div><strong>Message:</strong> %s</div>', htmlentities($message));
         }
 
-        if (($file = $error->getFile())) {
+        if ($file = $error->getFile()) {
             $html .= sprintf('<div><strong>File:</strong> %s</div>', $file);
         }
 
-        if (($line = $error->getLine())) {
+        if ($line = $error->getLine()) {
             $html .= sprintf('<div><strong>Line:</strong> %s</div>', $line);
         }
 
-        if (($trace = $error->getTraceAsString())) {
+        if ($trace = $error->getTraceAsString()) {
             $html .= '<h2>Trace</h2>';
             $html .= sprintf('<pre>%s</pre>', htmlentities($trace));
         }
@@ -136,15 +133,13 @@ class PhpError extends AbstractError
 
     /**
      * Render JSON error
-     *
      * @param \Throwable $error
-     *
      * @return string
      */
     protected function renderJsonErrorMessage(\Throwable $error)
     {
         $json = [
-            'message' => 'Slim Application Error',
+            'message' => 'Application Runtime Error(Throwable)',
         ];
 
         if ($this->displayErrorDetails) {
@@ -167,9 +162,7 @@ class PhpError extends AbstractError
 
     /**
      * Render XML error
-     *
      * @param \Throwable $error
-     *
      * @return string
      */
     protected function renderXmlErrorMessage(\Throwable $error)
@@ -178,23 +171,22 @@ class PhpError extends AbstractError
         if ($this->displayErrorDetails) {
             do {
                 $xml .= "  <error>\n";
-                $xml .= "    <type>" . get_class($error) . "</type>\n";
-                $xml .= "    <code>" . $error->getCode() . "</code>\n";
-                $xml .= "    <message>" . $this->createCdataSection($error->getMessage()) . "</message>\n";
-                $xml .= "    <file>" . $error->getFile() . "</file>\n";
-                $xml .= "    <line>" . $error->getLine() . "</line>\n";
-                $xml .= "    <trace>" . $this->createCdataSection($error->getTraceAsString()) . "</trace>\n";
+                $xml .= '    <type>' . get_class($error) . "</type>\n";
+                $xml .= '    <code>' . $error->getCode() . "</code>\n";
+                $xml .= '    <message>' . $this->createCdataSection($error->getMessage()) . "</message>\n";
+                $xml .= '    <file>' . $error->getFile() . "</file>\n";
+                $xml .= '    <line>' . $error->getLine() . "</line>\n";
+                $xml .= '    <trace>' . $this->createCdataSection($error->getTraceAsString()) . "</trace>\n";
                 $xml .= "  </error>\n";
             } while ($error = $error->getPrevious());
         }
-        $xml .= "</error>";
+        $xml .= '</error>';
 
         return $xml;
     }
 
     /**
      * Returns a CDATA section with the given content.
-     *
      * @param  string $content
      * @return string
      */
