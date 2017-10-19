@@ -1,6 +1,0 @@
-#!/usr/bin/env php
-<?php
-
-define('BASE_PATH', dirname(__DIR__, 2) );
-
-require dirname(__DIR__) . '/boot/console.php';

@@ -8,7 +8,8 @@
 
 namespace LightCms\Web;
 
-use Inhere\Library\Components\ViewRenderer;
+use Inhere\Library\Web\ViewRenderer;
+use Inhere\Library\Web\ViewRendererTrait;
 
 /**
  * Class BaseController
@@ -16,6 +17,8 @@ use Inhere\Library\Components\ViewRenderer;
  */
 abstract class BaseController
 {
+    use ViewRendererTrait;
+
     /** @var string id */
     public $id;
 
@@ -27,23 +30,9 @@ abstract class BaseController
         $this->id = $id ?: get_class($this);
     }
 
-    /*********************************************************************************
-     * view method
-     *********************************************************************************/
-
-    public function render($view, array $data = [], $layout = null)
+    protected function resolveView(string $view)
     {
-        return $this->getRenderer()->render(\Sys::alias($view), $data, $layout);
-    }
-
-    public function renderPartial($view, array $data = [])
-    {
-        return $this->getRenderer()->fetch(\Sys::alias($view), $data);
-    }
-
-    public function renderContent($string, array $data = [])
-    {
-        return $this->getRenderer()->renderContent($string, $data);
+        return \Sys::alias($view);
     }
 
     /**
@@ -60,7 +49,6 @@ abstract class BaseController
     }
 
     /**
-     * [getRenderer description]
      * @return ViewRenderer
      */
     public function getRenderer()

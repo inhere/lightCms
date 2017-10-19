@@ -6,7 +6,8 @@ use Inhere\Library\DI\ContainerManager;
 use Inhere\Library\Collections\Configuration;
 use LightCms\Console\App;
 
-$di = Sws::$di = ContainerManager::make();
+/** @var Inhere\Library\DI\Container $di */
+$di = Sys::$di = ContainerManager::make();
 
 // register some service components
 $di->set('config', function () {
@@ -18,7 +19,7 @@ $di->set('config', function () {
 });
 
 // load services from config
-$di->sets($config->remove('services'));
+$di->sets($di['config']->remove('services'));
 
 $app = new App($di);
 

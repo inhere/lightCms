@@ -18,14 +18,14 @@
   },
   "autoload": {
       "classmap": [
-        "./lib/system/Sys.php"
+        "./src/system/Sys.php"
       ],
       "files": [
-        "./lib/system/functions.php"
+        "./src/system/functions.php"
       ],
       "psr-4": {
-        "App\\": "app/",
-        "LightCms\\": "./lib/system/"
+        "App\\": "./src/app/",
+        "LightCms\\": "./src/system/"
       }
   },
   "repositories": {

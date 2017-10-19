@@ -11,7 +11,6 @@ if (!defined('BASE_PATH')) {
 }
 
 use Inhere\Library\DI\Container;
-use Inhere\Library\Interfaces\LanguageInterface;
 use Inhere\Library\Traits\PathAliasTrait;
 use Inhere\Library\Traits\LogShortTrait;
 
@@ -29,9 +28,10 @@ class Sys
      */
     protected static $aliases = [
         '@root' => BASE_PATH,
-        '@app' => BASE_PATH . '/app',
+        '@app' => BASE_PATH . '/src/app',
         '@bin' => BASE_PATH . '/bin',
-        '@lib' => BASE_PATH . '/lib',
+        '@src' => BASE_PATH . '/src',
+        '@system' => BASE_PATH . '/src/system',
         '@user' => BASE_PATH . '/user',
         '@config' => BASE_PATH . '/config',
         '@tmp' => BASE_PATH . '/tmp',
@@ -77,6 +77,10 @@ class Sys
         return self::$di->get($id);
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public static function getIfExist($id)
     {
         return self::$di->getIfExist($id);

@@ -1,6 +1,12 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: inhere
+ * Date: 2017-10-18
+ * Time: 18:58
+ */
 
-namespace app\console\controllers;
+namespace App\Console\Controllers;
 
 use Inhere\Console\Controller;
 
@@ -20,6 +26,6 @@ class PluginController extends Controller
      */
     public function indexCommand()
     {
-        $this->write("hello, welcome!! this is " . __METHOD__);
+        $this->write('hello, welcome!! this is ' . __METHOD__);
     }
 }

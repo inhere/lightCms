@@ -4,7 +4,7 @@
  */
 
 use Inhere\Library\Helpers\Arr;
-use Inhere\Library\Components\ViewRenderer;
+use Inhere\Library\Web\ViewRenderer;
 use Inhere\Route\ORouter;
 use Inhere\Route\Dispatcher;
 use Overtrue\Pinyin\MemoryFileDictLoader;
@@ -47,7 +47,6 @@ return Arr::merge(require __DIR__ . '/_common.php', [
         'renderer' => [
             'target' => ViewRenderer::class,
             'viewsPath' => dirname(__DIR__) . '/resources/views',
-            '_options' => ['active' => 1, 'aliases' => 'viewRenderer'],
         ],
     ]
 ]);

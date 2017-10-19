@@ -3,6 +3,6 @@
 .vscode/
 vendor/
 tmp/*
-.env.inc
+.env
 .git/
 *.log

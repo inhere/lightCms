@@ -2,16 +2,17 @@
 
 namespace LightCms\Console;
 
-use Psr\Container\ContainerInterface;
+use Inhere\Console\Application;
+use Inhere\Library\DI\Container;
 use LightCms\Base\AppTrait;
 
 /**
  * Class ConsoleApp
- * @package slimExt\base
+ * @package LightCms\Console
  */
-class App extends \Inhere\Console\App
+class App extends Application
 {
-    use AppTrait, QuicklyGetServiceTrait;
+    use AppTrait;
 
     /**
      * @var array
@@ -27,11 +28,9 @@ class App extends \Inhere\Console\App
 
     /**
      * Constructor.
-     *
-     * @internal string $name The name of the application
-     * @internal string $version The version of the application
+     * @param Container $container
      */
-    public function __construct($container)
+    public function __construct(Container $container)
     {
         \Sys::$app = $this;
         $this->di = $container;
@@ -69,15 +68,5 @@ class App extends \Inhere\Console\App
     public function add($name, $handler = null)
     {
         return $this->command($name, $handler);
-    }
-
-    /**
-     * Enable access to the DI container by consumers of $app
-     *
-     * @return ContainerInterface
-     */
-    public function getContainer()
-    {
-        return $this->container;
     }
 }
