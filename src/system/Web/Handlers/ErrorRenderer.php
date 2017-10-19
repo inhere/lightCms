@@ -14,44 +14,44 @@ use Psr\Http\Message\ServerRequestInterface;
 use UnexpectedValueException;
 
 /**
- * Default Slim application error handler
+ * Default application error handler
  * It outputs the error message and diagnostic information in either JSON, XML,
  * or HTML based on the Accept header.
  */
-class Error extends AbstractError
+class ErrorRenderer extends AbstractError
 {
     /**
      * Invoke error handler
      * @param ServerRequestInterface $request The most recent Request object
      * @param ResponseInterface $response The most recent Response object
-     * @param \Exception $exception The caught Exception object
+     * @param \Exception|\Throwable $error The caught Exception object
      * @return ResponseInterface
      * @throws UnexpectedValueException
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, \Exception $exception)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $error)
     {
         $contentType = $this->determineContentType($request);
         switch ($contentType) {
             case 'application/json':
-                $output = $this->renderJsonErrorMessage($exception);
+                $output = $this->renderJsonErrorMessage($error);
                 break;
 
             case 'text/xml':
             case 'application/xml':
-                $output = $this->renderXmlErrorMessage($exception);
+                $output = $this->renderXmlErrorMessage($error);
                 break;
 
             case 'text/html':
-                $output = $this->renderHtmlErrorMessage($exception);
+                $output = $this->renderHtmlErrorMessage($error);
                 break;
 
             default:
                 throw new UnexpectedValueException('Cannot render unknown content type ' . $contentType);
         }
 
-        $this->writeToErrorLog($exception);
+        $this->writeToErrorLog($error);
 
-        $body = new Body(fopen('php://temp', 'r+'));
+        $body = new Body(fopen('php://temp', 'rb+'));
         $body->write($output);
 
         return $response
@@ -62,21 +62,21 @@ class Error extends AbstractError
 
     /**
      * Render HTML error page
-     * @param  \Exception $exception
+     * @param  \Exception|\Throwable $error
      * @return string
      */
-    protected function renderHtmlErrorMessage(\Exception $exception)
+    protected function renderHtmlErrorMessage($error)
     {
         $title = 'Application Runtime Error(Exception)';
 
         if ($this->displayErrorDetails) {
             $html = '<p>The application could not run because of the following error:</p>';
             $html .= '<h2>Details</h2>';
-            $html .= $this->renderHtmlException($exception);
+            $html .= $this->renderHtmlException($error);
 
-            while ($exception = $exception->getPrevious()) {
+            while ($error = $error->getPrevious()) {
                 $html .= '<h2>Previous exception</h2>';
-                $html .= $this->renderHtmlExceptionOrError($exception);
+                $html .= $this->renderHtmlExceptionOrError($error);
             }
         } else {
             $html = '<p>A website error has occurred. Sorry for the temporary inconvenience.</p>';
@@ -102,44 +102,40 @@ EOF
     /**
      * Render exception as HTML.
      * Provided for backwards compatibility; use renderHtmlExceptionOrError().
-     * @param \Exception $exception
+     * @param \Exception|\Throwable $error
      * @return string
      */
-    protected function renderHtmlException(\Exception $exception)
+    protected function renderHtmlException($error)
     {
-        return $this->renderHtmlExceptionOrError($exception);
+        return $this->renderHtmlExceptionOrError($error);
     }
 
     /**
      * Render exception or error as HTML.
-     * @param \Exception|\Error $exception
+     * @param \Exception|\Error|\Throwable $error
      * @return string
      */
-    protected function renderHtmlExceptionOrError($exception)
+    protected function renderHtmlExceptionOrError($error)
     {
-        if (!$exception instanceof \Exception && !$exception instanceof \Error) {
-            throw new \RuntimeException('Unexpected type. Expected Exception or Error.');
-        }
+        $html = sprintf('<div><strong>Type:</strong> %s</div>', get_class($error));
 
-        $html = sprintf('<div><strong>Type:</strong> %s</div>', get_class($exception));
-
-        if ($code = $exception->getCode()) {
+        if ($code = $error->getCode()) {
             $html .= sprintf('<div><strong>Code:</strong> %s</div>', $code);
         }
 
-        if ($message = $exception->getMessage()) {
+        if ($message = $error->getMessage()) {
             $html .= sprintf('<div><strong>Message:</strong> %s</div>', htmlentities($message));
         }
 
-        if ($file = $exception->getFile()) {
+        if ($file = $error->getFile()) {
             $html .= sprintf('<div><strong>File:</strong> %s</div>', $file);
         }
 
-        if ($line = $exception->getLine()) {
+        if ($line = $error->getLine()) {
             $html .= sprintf('<div><strong>Line:</strong> %s</div>', $line);
         }
 
-        if ($trace = $exception->getTraceAsString()) {
+        if ($trace = $error->getTraceAsString()) {
             $html .= '<h2>Trace</h2>';
             $html .= sprintf('<pre>%s</pre>', htmlentities($trace));
         }
@@ -149,52 +145,52 @@ EOF
 
     /**
      * Render JSON error
-     * @param \Exception $exception
+     * @param \Exception|\Throwable $error
      * @return string
      */
-    protected function renderJsonErrorMessage(\Exception $exception)
+    protected function renderJsonErrorMessage($error)
     {
-        $error = [
+        $json = [
             'message' => 'Application Runtime Error(Exception)',
         ];
 
         if ($this->displayErrorDetails) {
-            $error['exception'] = [];
+            $json['exception'] = [];
 
             do {
-                $error['exception'][] = [
-                    'type' => get_class($exception),
-                    'code' => $exception->getCode(),
-                    'message' => $exception->getMessage(),
-                    'file' => $exception->getFile(),
-                    'line' => $exception->getLine(),
-                    'trace' => explode("\n", $exception->getTraceAsString()),
+                $json['exception'][] = [
+                    'type' => get_class($error),
+                    'code' => $error->getCode(),
+                    'message' => $error->getMessage(),
+                    'file' => $error->getFile(),
+                    'line' => $error->getLine(),
+                    'trace' => explode("\n", $error->getTraceAsString()),
                 ];
-            } while ($exception = $exception->getPrevious());
+            } while ($error = $error->getPrevious());
         }
 
-        return json_encode($error, JSON_PRETTY_PRINT);
+        return json_encode($json, JSON_PRETTY_PRINT);
     }
 
     /**
      * Render XML error
-     * @param \Exception $exception
+     * @param \Exception|\Throwable $error
      * @return string
      */
-    protected function renderXmlErrorMessage(\Exception $exception)
+    protected function renderXmlErrorMessage($error)
     {
         $xml = "<error>\n  <message>Slim Application Error</message>\n";
         if ($this->displayErrorDetails) {
             do {
-                $xml .= "  <exception>\n";
-                $xml .= '    <type>' . get_class($exception) . "</type>\n";
-                $xml .= '    <code>' . $exception->getCode() . "</code>\n";
-                $xml .= '    <message>' . $this->createCdataSection($exception->getMessage()) . "</message>\n";
-                $xml .= '    <file>' . $exception->getFile() . "</file>\n";
-                $xml .= '    <line>' . $exception->getLine() . "</line>\n";
-                $xml .= '    <trace>' . $this->createCdataSection($exception->getTraceAsString()) . "</trace>\n";
-                $xml .= "  </exception>\n";
-            } while ($exception = $exception->getPrevious());
+                $xml .= "  <error>\n";
+                $xml .= '    <type>' . get_class($error) . "</type>\n";
+                $xml .= '    <code>' . $error->getCode() . "</code>\n";
+                $xml .= '    <message>' . $this->createCdataSection($error->getMessage()) . "</message>\n";
+                $xml .= '    <file>' . $error->getFile() . "</file>\n";
+                $xml .= '    <line>' . $error->getLine() . "</line>\n";
+                $xml .= '    <trace>' . $this->createCdataSection($error->getTraceAsString()) . "</trace>\n";
+                $xml .= "  </error>\n";
+            } while ($error = $error->getPrevious());
         }
         $xml .= '</error>';
 

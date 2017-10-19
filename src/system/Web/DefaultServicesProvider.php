@@ -15,10 +15,9 @@ use Inhere\Library\Web\Environment;
 use LightCms\Base\CallableResolver;
 use LightCms\Base\CallableResolverInterface;
 use LightCms\Helpers\HttpHelper;
-use LightCms\Web\Handlers\Error;
+use LightCms\Web\Handlers\ErrorRenderer;
 use LightCms\Web\Handlers\NotAllowed;
 use LightCms\Web\Handlers\NotFound;
-use LightCms\Web\Handlers\PhpError;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -81,23 +80,6 @@ class DefaultServicesProvider implements ServiceProviderInterface
             };
         }
 
-        if (!isset($di['phpErrorHandler'])) {
-            /**
-             * This service MUST return a callable
-             * that accepts three arguments:
-             * 1. Instance of \Psr\Http\Message\ServerRequestInterface
-             * 2. Instance of \Psr\Http\Message\ResponseInterface
-             * 3. Instance of \Error
-             * The callable MUST return an instance of
-             * \Psr\Http\Message\ResponseInterface.
-             * @param Container $di
-             * @return callable
-             */
-            $di['phpErrorHandler'] = function ($di) {
-                return new PhpError($di->get('config')['displayErrorDetails']);
-            };
-        }
-
         if (!isset($di['errorHandler'])) {
             /**
              * This service MUST return a callable
@@ -111,7 +93,7 @@ class DefaultServicesProvider implements ServiceProviderInterface
              * @return callable
              */
             $di['errorHandler'] = function ($di) {
-                return new Error($di->get('config')['displayErrorDetails']);
+                return new ErrorRenderer($di->get('config')['displayErrorDetails'], $di->get('logger'));
             };
         }
 

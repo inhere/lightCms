@@ -18,14 +18,18 @@ use Inhere\Library\DI\Container;
 use Inhere\Library\Traits\MiddlewareAwareTrait;
 use Inhere\Route\ORouter;
 use Inhere\Route\RouterInterface;
+
 use LightCms\Base\AppTrait;
 use LightCms\Exceptions\MethodNotAllowedException;
 use LightCms\Exceptions\NotFoundException;
 use LightCms\Exceptions\RequestException;
 use LightCms\Helpers\HttpHelper;
+use LightCms\Web\Handlers\ErrorRenderer;
+
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+
 use Throwable;
 
 /**
@@ -57,10 +61,7 @@ class App
 
     protected function init()
     {
-        $timeZone = $this->get('config')->get('timeZone', 'UTC');
-
-        date_default_timezone_set($timeZone);
-
+        $this->prepare();
 //        $errHandler = new ErrorHandler();
     }
 
@@ -92,9 +93,6 @@ class App
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @return ResponseInterface
-     * @throws Exception
-     * @throws MethodNotAllowedException
-     * @throws NotFoundException
      */
     public function process(ServerRequestInterface $request, ResponseInterface $response)
     {
@@ -188,24 +186,21 @@ class App
             return $this->di->get('routeDispatcher')->dispatch($request, $response, $routeInfo);
         }
 
+        /** @var callable $handler */
+
         if ($routeInfo[0] === RouterInterface::METHOD_NOT_ALLOWED) {
-            if (!$this->di->has('notAllowedHandler')) {
+            if (!$handler = $this->di->getIfExist('notAllowedHandler')) {
                 throw new MethodNotAllowedException($request, $response, $routeInfo[1]);
             }
 
-            /** @var callable $notAllowedHandler */
-            $notAllowedHandler = $this->di->get('notAllowedHandler');
-            return $notAllowedHandler($request, $response, $routeInfo[2]);
+            return $handler($request, $response, $routeInfo[2]);
         }
 
-        if (!$this->di->has('notFoundHandler')) {
+        if (!$handler = $this->di->getIfExist('notFoundHandler')) {
             throw new NotFoundException($request, $response);
         }
 
-        /** @var callable $notFoundHandler */
-        $notFoundHandler = $this->di->get('notFoundHandler');
-
-        return $notFoundHandler($request, $response);
+        return $handler($request, $response);
     }
 
     /**
@@ -312,7 +307,7 @@ class App
      * @param  ServerRequestInterface $request
      * @param  ResponseInterface $response
      * @return ResponseInterface
-     * @throws Exception if a handler is needed and not found
+     * throws Exception if a handler is needed and not found
      */
     protected function handleException(Exception $e, ServerRequestInterface $request, ResponseInterface $response)
     {
@@ -331,15 +326,19 @@ class App
             $params = [$request, $response, $e];
         }
 
-        if ($this->di->has($handler)) {
-            $callable = $this->di->get($handler);
-
+        /** @var ErrorRenderer $callable */
+        if ($callable = $this->di->getIfExist($handler)) {
             // Call the registered handler
             return $callable(...$params);
         }
 
         // No handlers found, so just throw the exception
-        throw $e;
+        // throw $e;
+        $body = new Body(fopen('php://temp', 'rb+'));
+        $body->write('Server Exception: ' . $e->getMessage());
+        $body->rewind();
+
+        return $response->withBody($body);
     }
 
     /**
@@ -349,21 +348,25 @@ class App
      * @param  ServerRequestInterface $request
      * @param  ResponseInterface $response
      * @return ResponseInterface
-     * @throws Throwable
+     * throws Throwable
      */
     protected function handlePhpError(Throwable $e, ServerRequestInterface $request, ResponseInterface $response)
     {
-        $handler = 'phpErrorHandler';
-        $params = [$request, $response, $e];
+        $handler = 'errorHandler';
 
-        if ($this->di->has($handler)) {
-            $callable = $this->di->get($handler);
-
+        /** @var ErrorRenderer $callable */
+        if ($callable = $this->di->getIfExist($handler)) {
             // Call the registered handler
-            return $callable(...$params);
+            return $callable($request, $response, $e);
         }
 
         // No handlers found, so just throw the exception
-        throw $e;
+        // throw $e;
+
+        $body = new Body(fopen('php://temp', 'rb+'));
+        $body->write('Server Error: ' . $e->getMessage());
+        $body->rewind();
+
+        return $response->withBody($body);
     }
 }

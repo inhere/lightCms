@@ -46,6 +46,14 @@ class App extends Application implements AppInterface
         $this->loadBootstrapCommands();
     }
 
+    protected function init()
+    {
+        parent::init();
+        
+        $this->prepare();
+//        $errHandler = new ErrorHandler();
+    }
+    
     /**
      * loadBuiltInCommands
      */

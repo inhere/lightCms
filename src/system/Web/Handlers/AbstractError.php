@@ -8,11 +8,16 @@
 
 namespace LightCms\Web\Handlers;
 
+use Psr\Log\LoggerInterface;
+
 /**
  * Abstract Slim application error handler
  */
 abstract class AbstractError extends AbstractHandler
 {
+    /** @var LoggerInterface */
+    private $logger;
+
     /**
      * @var bool
      */
@@ -21,10 +26,12 @@ abstract class AbstractError extends AbstractHandler
     /**
      * Constructor
      * @param bool $displayErrorDetails Set to true to display full details
+     * @param LoggerInterface|null $logger
      */
-    public function __construct($displayErrorDetails = false)
+    public function __construct($displayErrorDetails = false, LoggerInterface $logger = null)
     {
         $this->displayErrorDetails = (bool)$displayErrorDetails;
+        $this->logger = $logger;
     }
 
     /**
@@ -88,6 +95,10 @@ abstract class AbstractError extends AbstractHandler
      */
     protected function logError($message)
     {
-        error_log($message);
+        if ($this->logger) {
+            $this->logger->error($message);
+        } else {
+            error_log($message);
+        }
     }
 }

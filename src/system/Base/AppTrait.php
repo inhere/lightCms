@@ -7,6 +7,7 @@
  */
 namespace LightCms\Base;
 
+use Inhere\Library\Collections\Configuration;
 use Inhere\Library\DI\Container;
 
 /**
@@ -20,6 +21,26 @@ trait AppTrait
      */
     protected $di;
 
+    /**
+     * prepare
+     */
+    protected function prepare()
+    {
+        /** @var Configuration $config */
+        $config = $this->di->get('config');
+        
+        $timeZone = $config->get('timeZone', 'UTC');
+        date_default_timezone_set($timeZone);
+
+        if ($config['debug']) {
+            ini_set('display_errors', 'On');
+            error_reporting(E_ALL);
+        } else {
+            ini_set('display_errors', 'Off');
+            error_reporting(E_ERROR);
+        }
+    }
+    
     /**
      * @param $id
      * @return mixed
