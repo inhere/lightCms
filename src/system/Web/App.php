@@ -15,7 +15,7 @@ use Inhere\Http\Headers;
 use Inhere\Http\Request;
 use Inhere\Library\Components\ErrorHandler;
 use Inhere\Library\DI\Container;
-use Inhere\Library\Traits\MiddlewareAwareTrait;
+use Inhere\Middleware\MiddlewareAwareTrait;
 use Inhere\Route\ORouter;
 use Inhere\Route\RouterInterface;
 

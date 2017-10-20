@@ -8,13 +8,13 @@
 namespace LightCms\Web;
 
 use Inhere\Http\Headers;
+use Inhere\Http\HttpFactory;
 use Inhere\Http\Response;
 use Inhere\Library\DI\Container;
 use Inhere\Library\DI\ServiceProviderInterface;
 use Inhere\Library\Web\Environment;
 use LightCms\Base\CallableResolver;
 use LightCms\Base\CallableResolverInterface;
-use LightCms\Helpers\HttpHelper;
 use LightCms\Web\Handlers\ErrorRenderer;
 use LightCms\Web\Handlers\NotAllowed;
 use LightCms\Web\Handlers\NotFound;
@@ -51,7 +51,7 @@ class DefaultServicesProvider implements ServiceProviderInterface
              * @return ServerRequestInterface
              */
             $di['request'] = function ($di) {
-                return HttpHelper::createRequest($di->get('environment'));
+                return HttpFactory::createServerRequestFromArray($di->get('environment'));
             };
         }
 

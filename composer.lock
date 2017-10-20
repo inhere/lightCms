@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b7579186c64eb28e8ce11146da958a51",
+    "content-hash": "5fa03268c8273b84ea497368a990ee09",
     "packages": [
         {
             "name": "guzzlehttp/promises",
@@ -104,6 +104,53 @@
                 "library"
             ],
             "time": "2017-10-19 16:34:10"
+        },
+        {
+            "name": "inhere/event",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/inhere/php-event-manager.git",
+                "reference": "3b2cd1bba0be9b7b5e913ee7f88728aeb905c879"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/inhere/php-event-manager/3b2cd1bba0be9b7b5e913ee7f88728aeb905c879.zip",
+                "reference": "3b2cd1bba0be9b7b5e913ee7f88728aeb905c879",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0.0"
+            },
+            "suggest": {
+                "inhere/console": "a lightweight php console application library.",
+                "inhere/php-validate": "Very lightweight data validate tool library"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Inhere\\Event\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "inhere",
+                    "email": "in.798@qq.com",
+                    "homepage": "http://www.yzone.net/"
+                }
+            ],
+            "description": "event manager library of the php",
+            "homepage": "https://github.com/inhere/php-event-manager",
+            "keywords": [
+                "event",
+                "event-dispatcher",
+                "library"
+            ],
+            "time": "2017-10-17 01:59:48"
         },
         {
             "name": "inhere/http",
@@ -217,6 +264,12 @@
                 "url": "https://github.com/inhere/php-middleware.git",
                 "reference": "9e2def7fbecabd7109e6a29fbee60b87fec182a1"
             },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/inhere/php-middleware/9e2def7fbecabd7109e6a29fbee60b87fec182a1.zip",
+                "reference": "9e2def7fbecabd7109e6a29fbee60b87fec182a1",
+                "shasum": ""
+            },
             "require": {
                 "php": ">=7.0.0"
             },
@@ -231,6 +284,7 @@
                     "Inhere\\Middleware\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -297,12 +351,18 @@
             "time": "2017-09-26T14:56:40+00:00"
         },
         {
-            "name": "inhere/simple-activeRecord",
+            "name": "inhere/simple-active-record",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/inhere/php-simple-activeRecord.git",
-                "reference": "2d6d22f1854308b9b666a025b89784a0d58ad602"
+                "reference": "235f5fc69c4652454188845c71fcddf117d3bf09"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/inhere/php-simple-activeRecord/235f5fc69c4652454188845c71fcddf117d3bf09.zip",
+                "reference": "235f5fc69c4652454188845c71fcddf117d3bf09",
+                "shasum": ""
             },
             "require": {
                 "inhere/php-validate": "^2.0",
@@ -313,7 +373,7 @@
             },
             "suggest": {
                 "inhere/console": "a lightweight php console application library.",
-                "inhere/event": "event manager",
+                "inhere/event": "the event manager",
                 "inhere/http": "Very lightweight PSR-7 implements http message component",
                 "inhere/sroute": "Very fast php router"
             },
@@ -323,6 +383,7 @@
                     "SimpleAR\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -336,13 +397,13 @@
             "description": "a simple activeRecord library of the php",
             "homepage": "https://github.com/inhere/php-simple-activeRecord",
             "keywords": [
-                "activeRecord",
+                "activerecord",
                 "library",
                 "pdo",
                 "php",
                 "tool"
             ],
-            "time": "2017-10-19 16:33:52"
+            "time": "2017-10-20 02:21:10"
         },
         {
             "name": "inhere/sroute",
@@ -1045,7 +1106,7 @@
         "inhere/event": 20,
         "inhere/http": 20,
         "inhere/middleware": 20,
-        "inhere/simple-activerecord": 20,
+        "inhere/simple-active-record": 20,
         "inhere/simple-print-tool": 20
     },
     "prefer-stable": false,

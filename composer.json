@@ -48,18 +48,6 @@
     "packagist": {
       "type": "composer",
       "url": "https://packagist.phpcomposer.com"
-    },
-    "0": {
-      "type": "git",
-      "url": "https://github.com/inhere/php-event-manager.git"
-    },
-    "1": {
-      "type": "git",
-      "url": "https://github.com/inhere/php-middleware.git"
-    },
-    "2": {
-      "type": "git",
-      "url": "https://github.com/inhere/php-simple-activeRecord.git"
     }
   },
    "config": {
