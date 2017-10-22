@@ -6,8 +6,10 @@
  * @copyright Copyright (c) 2011-2017 Josh Lockhart
  * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
+
 namespace LightCms\Base;
 
+use Inhere\Library\DI\Container;
 use RuntimeException;
 use Psr\Container\ContainerInterface;
 
@@ -20,7 +22,7 @@ final class CallableResolver implements CallableResolverInterface
     const CALLABLE_PATTERN = '!^([^\:]+)\:([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)$!';
 
     /**
-     * @var ContainerInterface
+     * @var ContainerInterface|Container
      */
     private $container;
 
@@ -79,10 +81,10 @@ final class CallableResolver implements CallableResolverInterface
      *
      * @throws \RuntimeException if the callable does not exist
      */
-    protected function resolveCallable($class, $method = '__invoke')
+    private function resolveCallable($class, $method = '__invoke')
     {
-        if ($this->container->has($class)) {
-            return [$this->container->get($class), $method];
+        if ($cb = $this->container->getIfExist($class)) {
+            return [$cb, $method];
         }
 
         if (!class_exists($class)) {
@@ -97,7 +99,7 @@ final class CallableResolver implements CallableResolverInterface
      *
      * @throws \RuntimeException if the callable is not resolvable
      */
-    protected function assertCallable($callable)
+    private function assertCallable($callable)
     {
         if (!is_callable($callable)) {
             throw new RuntimeException(sprintf(

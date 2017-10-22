@@ -55,7 +55,7 @@ class NotAllowed extends AbstractHandler
             }
         }
 
-        $body = new Body(fopen('php://temp', 'rb+'));
+        $body = new Body();
         $body->write($output);
         $allow = implode(', ', $methods);
 

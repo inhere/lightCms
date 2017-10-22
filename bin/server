@@ -8,12 +8,11 @@
  * @usage `php bin/server start|stop|...`
  */
 
-use Inhere\Http\Request;
+use Inhere\Http\ServerRequest;
 use Inhere\Http\Uri;
 use Inhere\Library\DI\Container;
 use Sws\Application;
 use Sws\AppServer;
-use Sws\Components\HttpHelper;
 
 define('BASE_PATH', dirname(__DIR__) );
 
@@ -35,14 +34,14 @@ $server->on(AppServer::ON_BOOTSTRAP, function ($svr) {
 
 $server->on(AppServer::ON_SERVER_CREATE, function () {
   // prepare load classes
-  $req = new Request('GET', Uri::createFromString('/'));
-  $res = HttpHelper::createResponse();
+//  $req = new Request('GET', Uri::createFromString('/'));
+//  $res = HttpHelper::createResponse();
 });
 
 // 启动worker 后，再初始化应用(加载应用配置、路由 ...)
 $server->on(AppServer::ON_WORKER_STARTED, function (AppServer $server) {
     /** @var Application $app */
-    $app = Sws::$di->get('app');
+    $app = \Sys::$di->get('app');
     $server->setApp($app);
 
     // load http routes

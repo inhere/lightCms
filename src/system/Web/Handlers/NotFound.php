@@ -48,7 +48,7 @@ class NotFound extends AbstractHandler
                 throw new UnexpectedValueException('Cannot render unknown content type ' . $contentType);
         }
 
-        $body = new Body(fopen('php://temp', 'rb+'));
+        $body = new Body();
         $body->write($output);
 
         return $response->withStatus(404)

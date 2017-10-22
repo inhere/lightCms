@@ -12,7 +12,8 @@ namespace LightCms\Web;
 use Exception;
 use Inhere\Http\Body;
 use Inhere\Http\Headers;
-use Inhere\Http\Request;
+use Inhere\Http\HttpFactory;
+use Inhere\Http\ServerRequest;
 use Inhere\Library\Components\ErrorHandler;
 use Inhere\Library\DI\Container;
 use Inhere\Middleware\MiddlewareAwareTrait;
@@ -225,24 +226,28 @@ class App
     )
     {
         $env = $this->di->get('environment');
-        $uri = HttpHelper::createRequestUri($env)->withPath($path)->withQuery($query);
+        $uri = HttpFactory::createUriFromArray($env)->withPath($path)->withQuery($query);
         $headers = new Headers($headersData);
         $serverParams = $env->all();
-        $body = new Body(fopen('php://temp', 'rb+'));
+        $body = new Body('rb+');
         $body->write($bodyContent);
         $body->rewind();
-        $request = new Request($method, $uri, $headers, $cookies, $serverParams, $body);
+        $request = new ServerRequest($method, $uri, $headers, $cookies, $serverParams, $body);
 
         if (!$response) {
             $response = $this->di->get('response');
         }
 
-        return $this->handle($request, $response);
+        try {
+            return $this->handle($request, $response);
+        } catch (\Throwable $e) {
+            return $this->handlePhpError($e, $request, $response);
+        }
     }
 
     /**
      * Dispatch the router to find the route. Prepare the route for use.
-     * @param ServerRequestInterface|Request $request
+     * @param ServerRequestInterface|ServerRequest $request
      * @param RouterInterface|ORouter $router
      * @return ServerRequestInterface
      */
@@ -334,7 +339,7 @@ class App
 
         // No handlers found, so just throw the exception
         // throw $e;
-        $body = new Body(fopen('php://temp', 'rb+'));
+        $body = new Body();
         $body->write('Server Exception: ' . $e->getMessage());
         $body->rewind();
 
@@ -363,7 +368,7 @@ class App
         // No handlers found, so just throw the exception
         // throw $e;
 
-        $body = new Body(fopen('php://temp', 'rb+'));
+        $body = new Body();
         $body->write('Server Error: ' . $e->getMessage());
         $body->rewind();
 

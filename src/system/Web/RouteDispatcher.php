@@ -104,7 +104,7 @@ class RouteDispatcher
         if (!empty($output) && $response->getBody()->isWritable()) {
             if ($this->outputBuffering === 'prepend') {
                 // prepend output buffer content
-                $body = new Body(fopen('php://temp', 'rb+'));
+                $body = new Body();
                 $body->write($output . $response->getBody());
                 $response = $response->withBody($body);
             } elseif ($this->outputBuffering === 'append') {

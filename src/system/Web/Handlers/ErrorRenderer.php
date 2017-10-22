@@ -51,7 +51,7 @@ class ErrorRenderer extends AbstractError
 
         $this->writeToErrorLog($error);
 
-        $body = new Body(fopen('php://temp', 'rb+'));
+        $body = new Body();
         $body->write($output);
 
         return $response
