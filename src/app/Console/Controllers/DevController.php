@@ -16,10 +16,10 @@ use Inhere\Console\Controller;
 class DevController extends Controller
 {
     protected static $name = 'dev';
-    protected static $description = 'this is a command controller for develop';
+    protected static $description = 'Some useful development tool commands';
 
     /**
-     * run a php built-in server for develop
+     * run a php built-in server for development
      * @usage
      *  {command} [-S HOST:PORT]
      *  {command} [-H HOST] [-p PORT]
