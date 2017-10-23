@@ -11,6 +11,9 @@ namespace LightCms\Web;
 use Inhere\Http\Response;
 use Inhere\Http\ServerRequest;
 
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
 /**
  * Class Context - a simple htt request context
  * @package LightCms\Web
@@ -22,6 +25,22 @@ class Context
 
     /** @var Response */
     public $res;
+
+    public static function make(ServerRequestInterface $request, ResponseInterface $response)
+    {
+        return new static($request, $response);
+    }
+
+    /**
+     * Context constructor.
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     */
+    public function __construct(ServerRequestInterface $request, ResponseInterface $response)
+    {
+        $this->req = $request;
+        $this->res = $response;
+    }
 
     /**
      * @return ServerRequest

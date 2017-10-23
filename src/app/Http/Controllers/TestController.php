@@ -14,25 +14,63 @@ use LightCms\Web\BaseController;
 /**
  * class HomeController
  */
-class HomeController extends BaseController
+class TestController extends BaseController
 {
     public function indexAction()
     {
         $content = 'hello, welcome!! this is ' . __METHOD__;
-//de(\Sys::get('config')->all());
 
-        d(\Sys::get('logger'));
+        return $this->renderContent($content);
+    }
+
+    public function ctxAction($ctx)
+    {
+        $content = 'hello, welcome!! this is ' . __METHOD__;
+
+        d($ctx);
+
+        return $this->renderContent($content);
+    }
+
+    public function errAction()
+    {
+        $content = 'hello, welcome!! this is ' . __METHOD__;
+
+        trigger_error('test trigger user error', E_USER_ERROR);
+//        trigger_error('test trigger user error', E_USER_WARNING);
+
+        return $this->renderContent($content);
+    }
+
+    public function err1Action()
+    {
+        throw new \TypeError('test Type Error');
+    }
+
+    public function err2Action()
+    {
+        call_not_exists_func();
+    }
+
+    public function expAction()
+    {
+        throw new \RuntimeException('test Exception');
+    }
+
+    public function logAction()
+    {
+        //de(\Sys::get('config')->all());
+
+//        d(\Sys::get('logger'));
 
         \Sys::get('logger')->info('a message test');
         \Sys::get('logger')->notice('a notice test');
         \Sys::get('logger')->flush();
 
         de(\Sys::get('logger'));
-
-        return $this->renderContent($content);
     }
 
-    public function testAction()
+    public function log1Action()
     {
 
         $lgr = LiteLogger::make([
@@ -52,11 +90,7 @@ class HomeController extends BaseController
 
     public function configAction()
     {
-        Micro::$app->output->formatJson([
-            'phpVersion' => PHP_VERSION,
-            'env' => Micro::$app->config('env'),
-            'debug' => Micro::$app->isDebug(),
-        ]);
+        de(\Sys::get('config')->all());
     }
 
     public function json()

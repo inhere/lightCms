@@ -26,9 +26,13 @@ return [
             'target' => LiteLogger::class,
             'name' => 'app',
             'logFile' => '@user/tmp/logs/application.log',
+            'basePath' => '@user/tmp/logs',
             'level' => LiteLogger::DEBUG,
             'splitType' => 1,
             'bufferSize' => 1000, // 1000,
+            'pathResolver' => function ($path) {
+                return \Sys::alias($path);
+            }
         ],
         'lang' => [
             'target' => Language::class,

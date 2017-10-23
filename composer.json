@@ -23,6 +23,7 @@
     "inhere/http": "dev-master",
     "inhere/middleware": "dev-master",
     "inhere/simple-active-record": "dev-master",
+    "inhere/server": "dev-master",
     "monolog/monolog": "^1.2",
     "psr/container": "^1.0",
     "overtrue/pinyin": "^3.0",

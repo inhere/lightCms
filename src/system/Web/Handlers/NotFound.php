@@ -91,7 +91,7 @@ class NotFound extends AbstractHandler
             body{
                 margin:0;
                 padding:30px;
-                font:12px/1.5 Helvetica,Arial,Verdana,sans-serif;
+                font:16px/1.5 Helvetica,Arial,Verdana,sans-serif;
             }
             h1{
                 margin:0;

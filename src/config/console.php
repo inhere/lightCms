@@ -9,7 +9,7 @@ use Inhere\Library\Utils\LiteLogger;
 return Arr::merge(require __DIR__ . '/_common.php', [
     'services' => [
         'logger' => [
-            'name' => 'app',
+            'name' => 'console',
             'logFile' => '@user/tmp/logs/console.log',
             'level' => LiteLogger::DEBUG,
             'splitType' => 1,

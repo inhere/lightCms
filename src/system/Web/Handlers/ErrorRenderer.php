@@ -67,7 +67,8 @@ class ErrorRenderer extends AbstractError
      */
     protected function renderHtmlErrorMessage($error)
     {
-        $title = 'Application Runtime Error(Exception)';
+        $type = $error instanceof \Error ? 'Error' : 'Exception';
+        $title = 'Application Runtime Error';
 
         if ($this->displayErrorDetails) {
             $html = '<p>The application could not run because of the following error:</p>';
@@ -84,14 +85,18 @@ class ErrorRenderer extends AbstractError
 
         $output = sprintf(<<<EOF
 <html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
-<title>%s</title><style>body{margin:0;padding:30px;font:14px/1.5 Helvetica,Arial,Verdana,sans-serif;}
+<title>%s</title><style>body{margin:0;padding:70px 50px;font: 14px/1.5 Menlo, Monaco, Consolas, 'Courier New', monospace;}
 h1{margin:0;font-size:48px;font-weight:normal;line-height:48px;}
 strong{display:inline-block;width:65px;}
-pre{background-color: #f6f8fa;border-radius: 3px;padding: 16px;}
-</style></head><body><h1>%s</h1>%s</body></html>
+pre{
+font: 13px/1.5 Menlo, Monaco, Consolas, 'Courier New', monospace;background-color: #f6f8fa;
+border-radius: 3px;padding: 16px;border: 1px solid #dedede;overflow-x: auto;
+}
+</style></head><body><h1>%s(<small>from %s</small>)</h1>%s</body></html>
 EOF
             ,
             $title,
+            $type,
             $title,
             $html
         );
@@ -150,8 +155,9 @@ EOF
      */
     protected function renderJsonErrorMessage($error)
     {
+        $type = $error instanceof \Error ? 'Error' : 'Exception';
         $json = [
-            'message' => 'Application Runtime Error(Exception)',
+            'message' => "Application Runtime Error(from $type)",
         ];
 
         if ($this->displayErrorDetails) {
@@ -179,7 +185,7 @@ EOF
      */
     protected function renderXmlErrorMessage($error)
     {
-        $xml = "<error>\n  <message>Slim Application Error</message>\n";
+        $xml = "<error>\n  <message>Application Runtime Error</message>\n";
         if ($this->displayErrorDetails) {
             do {
                 $xml .= "  <error>\n";

@@ -140,6 +140,10 @@ class RouteDispatcher
         $vars = $args['matches'];
         $args = array_values($args);
 
+        // un-shift ctx to args
+        $ctx = Context::make($request, $response);
+        array_unshift($args, $ctx);
+
         // is a \Closure or a callable object
         if (is_object($handler)) {
             return $handler(...$args);

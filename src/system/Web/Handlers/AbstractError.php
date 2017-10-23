@@ -41,9 +41,9 @@ abstract class AbstractError extends AbstractHandler
      */
     protected function writeToErrorLog($throwable)
     {
-        if ($this->displayErrorDetails) {
-            return;
-        }
+//        if ($this->displayErrorDetails) {
+//            return;
+//        }
 
         $message = 'Light Cms Error:' . PHP_EOL;
         $message .= $this->renderThrowableAsText($throwable);

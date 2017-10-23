@@ -8,6 +8,7 @@
 
 namespace LightCms\Web;
 
+use Inhere\Http\Response;
 use Inhere\Library\Web\ViewRenderer;
 use Inhere\Library\Web\ViewRendererTrait;
 
@@ -51,7 +52,7 @@ abstract class BaseController
      */
     public function redirect($url, $status = 302, $response = null)
     {
-        $response = $response ?: $this->getResponse();
+        $response = $response ?: \Sys::$di['response'];
 
         return $response->redirect($url, $status);
     }

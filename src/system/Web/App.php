@@ -63,7 +63,12 @@ class App
     protected function init()
     {
         $this->prepare();
-//        $errHandler = new ErrorHandler();
+
+        // error handler register
+        $errHandler = new ErrorHandler($this->di->get('logger'));
+        $errHandler->register();
+
+//        de($errHandler);
     }
 
     /********************************************************************************

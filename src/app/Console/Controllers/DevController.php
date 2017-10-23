@@ -39,9 +39,21 @@ class DevController extends Controller
             $server .= ':' . $port;
         }
 
-        $this->write("Start the php server on <info>$server</info>");
+        $version = PHP_VERSION;
+        $workDir = $this->input->getPwd();
+        $this->write("PHP $version Development Server started\nServer listening on <info>$server</info>");
+        $this->write("Document root is <comment>$workDir/web</comment>");
+        $this->write('You can use <comment>CTRL + C</comment> to stop run.');
 
-        exec("php -S {$server} -t web web/index.php");
+        $command = "php -S {$server} -t web web/index.php";
+
+        if (function_exists('system')) {
+            system($command);
+        } elseif (function_exists('passthru')) {
+            passthru($command);
+        } elseif (function_exists('exec')) {
+            exec($command);
+        }
     }
 
     /**
