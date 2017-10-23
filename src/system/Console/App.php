@@ -42,6 +42,7 @@ class App extends Application implements AppInterface
             'name' => 'LightCms Console',
             'version' => '0.0.1',
             'publishAt' => '2017.10.19',
+            'debug' => $this->di->get('config')['debug'],
         ];
 
         parent::__construct($meta, $this->di->get('input'), $this->di->get('output'));
@@ -53,11 +54,11 @@ class App extends Application implements AppInterface
     protected function init()
     {
         parent::init();
-        
+
         $this->prepare();
 //        $errHandler = new ErrorHandler();
     }
-    
+
     /**
      * loadBuiltInCommands
      */

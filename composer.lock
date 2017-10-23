@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5fa03268c8273b84ea497368a990ee09",
+    "content-hash": "fc16a7658f7b983c77f4da57fb44f6ac",
     "packages": [
         {
             "name": "guzzlehttp/promises",
@@ -352,6 +352,59 @@
             "time": "2017-09-26T14:56:40+00:00"
         },
         {
+            "name": "inhere/server",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/inhere/php-server.git",
+                "reference": "b39ad837ce40796c1fe8423921be3242028d7e73"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/inhere/php-server/b39ad837ce40796c1fe8423921be3242028d7e73.zip",
+                "reference": "b39ad837ce40796c1fe8423921be3242028d7e73",
+                "shasum": ""
+            },
+            "require": {
+                "inhere/console": "dev-master",
+                "inhere/library": "dev-master",
+                "php": ">=7.0.0"
+            },
+            "suggest": {
+                "ext-swoole": "The swoole extension is required for running",
+                "inhere/simple-print-tool": "Very lightweight data printing tools"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Inhere\\Server\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "inhere",
+                    "email": "in.798@qq.com",
+                    "homepage": "http://www.yzone.net/"
+                }
+            ],
+            "description": "a php server powered by swoole",
+            "homepage": "https://github.com/inhere/php-server",
+            "keywords": [
+                "http",
+                "library",
+                "server",
+                "swoole",
+                "tcp",
+                "udp",
+                "websocket"
+            ],
+            "time": "2017-10-23 02:06:53"
+        },
+        {
             "name": "inhere/simple-active-record",
             "version": "dev-master",
             "source": {
@@ -452,6 +505,61 @@
                 "router"
             ],
             "time": "2017-10-19 10:06:01"
+        },
+        {
+            "name": "league/plates",
+            "version": "3.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/plates.git",
+                "reference": "b1684b6f127714497a0ef927ce42c0b44b45a8af"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/thephpleague/plates/b1684b6f127714497a0ef927ce42c0b44b45a8af.zip",
+                "reference": "b1684b6f127714497a0ef927ce42c0b44b45a8af",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3 | ^7.0"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "^1.4",
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~1.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Plates\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan Reinink",
+                    "email": "jonathan@reinink.ca",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Plates, the native PHP template system that's fast, easy to use and easy to extend.",
+            "homepage": "http://platesphp.com",
+            "keywords": [
+                "league",
+                "package",
+                "templates",
+                "templating",
+                "views"
+            ],
+            "time": "2016-12-28T00:14:17+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -1108,6 +1216,7 @@
         "inhere/http": 20,
         "inhere/middleware": 20,
         "inhere/simple-active-record": 20,
+        "inhere/server": 20,
         "inhere/simple-print-tool": 20
     },
     "prefer-stable": false,

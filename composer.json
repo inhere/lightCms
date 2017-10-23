@@ -28,7 +28,8 @@
     "psr/container": "^1.0",
     "overtrue/pinyin": "^3.0",
     "windwalker/cache": "~3.0",
-    "phpfastcache/phpfastcache": "^6.0"
+    "phpfastcache/phpfastcache": "^6.0",
+    "league/plates": "^3.3"
    },
   "require-dev": {
     "inhere/simple-print-tool": "dev-master"
