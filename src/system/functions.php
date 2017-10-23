@@ -1,9 +1,11 @@
 <?php
 
+use Inhere\Library\Components\Language;
+
 function app($id = null)
 {
-    if ($name) {
-        return \Sys::$di->get($name);
+    if ($id) {
+        return \Sys::$di->get($id);
     }
 
     return \Sys::$app;
@@ -18,9 +20,10 @@ function di($name = null)
     return \Sys::$di;
 }
 
-function tl($key)
+function tl($key, array $args = [], $lang = null)
 {
-    return \Sys::alias($path);
+    /** @see Language::translate() */
+    return \Sys::$di->get('lang')->translate($key, $args, $lang);
 }
 
 function app_path($path)

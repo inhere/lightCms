@@ -22,14 +22,14 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Slim's default Service Provider.
+ * the app's default Service Provider.
  */
 class DefaultServicesProvider implements ServiceProviderInterface
 {
     /**
-     * Register Slim's default services.
+     * Register default services.
      *
-     * @param Container $di A DI container implementing ArrayAccess and container-interop.
+     * @param Container $di A DI container implementing ArrayAccess and ContainerInterface.
      */
     public function register(Container $di)
     {

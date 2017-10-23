@@ -11,10 +11,10 @@ namespace App\Console\Commands;
 use Inhere\Console\Command;
 
 /**
- * Class MergeJsCommand
- * @package app\console\commands
+ * Class Test
+ * @package App\Console\Commands
  */
-class MergeJsCommand extends Command
+class TestCommand extends Command
 {
     /**
      * do execute
@@ -24,11 +24,8 @@ class MergeJsCommand extends Command
      */
     protected function execute($input, $output)
     {
-        $this->output->write('hello, this in ' . __METHOD__);
+        $output->write('hello, this in ' . __METHOD__);
 
-        $path = $this->input->sOpt('p');
-        $clear = $this->input->lBoolOpt('clear');
-        $basePath = $this->input->lOpt('base-path');
-        $name = $this->input->lOpt('name');
+        //AnsiCode::make()->screen(AnsiCode::CLEAR);
     }
 }

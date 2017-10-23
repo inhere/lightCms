@@ -29,18 +29,22 @@ class App extends Application implements AppInterface
 
     /**
      * Constructor.
-     * @param Container $container
+     * @param Container $di
      */
-    public function __construct(Container $container)
+    public function __construct(Container $di = null)
     {
         \Sys::$app = $this;
-        $this->di = $container;
 
-        parent::__construct([
+        $this->di = $di ?: new Container;
+        $this->di->registerServiceProvider(new DefaultServicesProvider);
+
+        $meta = [
             'name' => 'LightCms Console',
             'version' => '0.0.1',
             'publishAt' => '2017.10.19',
-        ]);
+        ];
+
+        parent::__construct($meta, $this->di->get('input'), $this->di->get('output'));
 
         // $config->loadArray($this->config);
         $this->loadBootstrapCommands();

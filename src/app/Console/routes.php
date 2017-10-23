@@ -19,6 +19,7 @@ $app->commands([
 ]);
 
 $app->controllers([
-    \App\Console\Controllers\HomeController::class,
+    \App\Console\Controllers\DevController::class,
+    \App\Console\Controllers\CmsController::class,
     \App\Console\Controllers\PluginController::class,
 ]);

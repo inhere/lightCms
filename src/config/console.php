@@ -3,6 +3,9 @@
  * config for console
  */
 
+use Inhere\Library\Helpers\Arr;
+use Inhere\Library\Utils\LiteLogger;
+
 return Arr::merge(require __DIR__ . '/_common.php', [
     'services' => [
         'logger' => [
