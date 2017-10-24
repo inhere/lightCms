@@ -1,10 +1,10 @@
 <?php
 
-require BASE_PATH . '/vendor/autoload.php';
-
 use Inhere\Library\DI\ContainerManager;
 use Inhere\Library\Collections\Configuration;
 use LightCms\Web\App;
+
+defined('IN_SWOOLE') || define('IN_SWOOLE', false);
 
 /** @var Inhere\Library\DI\Container $di */
 $di = Sys::$di = ContainerManager::make();
@@ -26,5 +26,3 @@ $app = new App($di);
 
 // load routes
 require dirname(__DIR__) . '/app/Http/routes.php';
-
-$app->run();

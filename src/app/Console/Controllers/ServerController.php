@@ -9,7 +9,8 @@
 namespace App\Console\Controllers;
 
 use Inhere\Console\Controller;
-use LightCms\Web\App;
+use Inhere\Server\Helpers\ServerHelper;
+use LightCms\Web\AppServer;
 
 /**
  * ServerController
@@ -27,53 +28,53 @@ class ServerController extends Controller
     }
 
     /**
-     * @return App
+     * @return AppServer
      */
-    protected function createApp()
+    protected function createServer()
     {
-        /* @var  App $application */
-        $app = ApplicationContext::getBean('application');
-        $app->init($this->input->getScript());
+        /** @var AppServer $server */
+        require BASE_PATH . '/src/boot/server.php';
 
-        return $app;
+        return $server;
     }
 
     /**
-     * start the swoole application server
+     * start the application server
      * @options
      *  -d, --daemon  run app server on the background
      */
     public function startCommand()
     {
-        //$this->write('hello start');
-        require BASE_PATH . '/app/routes.php';
-        $daemon = $this->input->getSameOpt(['d', 'daemon']);
-        $this->createApp()->asDaemon($daemon)->start();
+        ServerHelper::checkRuntimeEnv();
+        $daemon = $this->getSameOpt(['d', 'daemon']);
+
+        $this->createServer()->asDaemon($daemon)->start();
     }
 
     /**
-     * restart the swoole application server
+     * restart the application server
      * @options
      *  -d, --daemon  run app server on the background
      */
     public function restartCommand()
     {
-        require BASE_PATH . '/app/routes.php';
+        ServerHelper::checkRuntimeEnv();
         $daemon = $this->input->getSameOpt(['d', 'daemon']);
-        $this->createApp()->asDaemon($daemon)->restart();
+
+        $this->createServer()->asDaemon($daemon)->restart();
     }
 
     /**
-     * reload the swoole application server
+     * reload the application server
      * @options
      *  --task  only reload task worker when exec reload command
      */
     public function reloadCommand()
     {
-        //$this->write('hello restart');
+        ServerHelper::checkRuntimeEnv();
         $onlyTask = $this->input->getSameOpt(['task']);
 
-        $this->createApp()->reload($onlyTask);
+        $this->createServer()->reload($onlyTask);
     }
 
     /**
@@ -81,7 +82,8 @@ class ServerController extends Controller
      */
     public function stopCommand()
     {
+        ServerHelper::checkRuntimeEnv();
         //$this->write('hello stop');
-        $this->createApp()->stop();
+        $this->createServer()->stop();
     }
 }

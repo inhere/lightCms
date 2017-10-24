@@ -33,6 +33,9 @@ use Psr\Http\Message\ServerRequestInterface;
 
 use Throwable;
 
+use Swoole\Http\Request as SwRequest;
+use Swoole\Http\Response as SwResponse;
+
 /**
  * Class App
  * @package LightCms\Web
@@ -72,7 +75,20 @@ class App
     }
 
     /********************************************************************************
-     * request handle methods
+     * request handle methods(for Swoole server)
+     *******************************************************************************/
+
+    /**
+     * @param SwRequest $request
+     * @param SwResponse $response
+     */
+    public function handleHttp(SwRequest $request, SwResponse $response)
+    {
+        $response->end('hello, by swoole');
+    }
+
+    /********************************************************************************
+     * request handle methods(for CGI server)
      *******************************************************************************/
 
     /**

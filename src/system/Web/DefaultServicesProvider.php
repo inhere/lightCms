@@ -33,40 +33,10 @@ class DefaultServicesProvider implements ServiceProviderInterface
      */
     public function register(Container $di)
     {
-        if (!isset($di['environment'])) {
-            /**
-             * This service MUST return a shared instance
-             * of \Slim\Interfaces\Http\EnvironmentInterface.
-             * @return Environment
-             */
-            $di['environment'] = function () {
-                return new Environment($_SERVER);
-            };
-        }
-
-        if (!isset($di['request'])) {
-            /**
-             * PSR-7 Request object
-             * @param Container $di
-             * @return ServerRequestInterface
-             */
-            $di['request'] = function ($di) {
-                return HttpFactory::createServerRequestFromArray($di->get('environment'));
-            };
-        }
-
-        if (!isset($di['response'])) {
-            /**
-             * PSR-7 Response object
-             * @param Container $di
-             * @return ResponseInterface
-             */
-            $di['response'] = function ($di) {
-                $headers = new Headers(['Content-Type' => 'text/html; charset=UTF-8']);
-                $response = new Response(200, $headers);
-
-                return $response->withProtocolVersion($di->get('config')->get('response.httpVersion'));
-            };
+        if (IN_SWOOLE) {
+            $this->registerServicesForSwoole($di);
+        } else {
+            $this->registerServicesForCGI($di);
         }
 
         if (!isset($di['routeDispatcher'])) {
@@ -138,5 +108,50 @@ class DefaultServicesProvider implements ServiceProviderInterface
                 return new CallableResolver($di);
             };
         }
+    }
+
+    protected function registerServicesForCGI(Container $di)
+    {
+
+        if (!isset($di['environment'])) {
+            /**
+             * This service MUST return a shared instance
+             * of \Slim\Interfaces\Http\EnvironmentInterface.
+             * @return Environment
+             */
+            $di['environment'] = function () {
+                return new Environment($_SERVER);
+            };
+        }
+
+        if (!isset($di['request'])) {
+            /**
+             * PSR-7 Request object
+             * @param Container $di
+             * @return ServerRequestInterface
+             */
+            $di['request'] = function ($di) {
+                return HttpFactory::createServerRequestFromArray($di->get('environment'));
+            };
+        }
+
+        if (!isset($di['response'])) {
+            /**
+             * PSR-7 Response object
+             * @param Container $di
+             * @return ResponseInterface
+             */
+            $di['response'] = function ($di) {
+                $headers = new Headers(['Content-Type' => 'text/html; charset=UTF-8']);
+                $response = new Response(200, $headers);
+
+                return $response->withProtocolVersion($di->get('config')->get('response.httpVersion'));
+            };
+        }
+    }
+
+    protected function registerServicesForSwoole(Container $di)
+    {
+
     }
 }

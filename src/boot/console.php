@@ -4,8 +4,6 @@ use Inhere\Library\Collections\Configuration;
 use Inhere\Library\DI\ContainerManager;
 use LightCms\Console\App;
 
-require BASE_PATH . '/vendor/autoload.php';
-
 /** @var Inhere\Library\DI\Container $di */
 $di = Sys::$di = ContainerManager::make();
 

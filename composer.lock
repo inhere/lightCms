@@ -63,12 +63,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inhere/php-console.git",
-                "reference": "23704970a042733b536401a7e4d3fb9cf72ccf97"
+                "reference": "0cd48f324a386db053e062680e498830e26541f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/inhere/php-console/23704970a042733b536401a7e4d3fb9cf72ccf97.zip",
-                "reference": "23704970a042733b536401a7e4d3fb9cf72ccf97",
+                "url": "https://files.phpcomposer.com/files/inhere/php-console/0cd48f324a386db053e062680e498830e26541f8.zip",
+                "reference": "0cd48f324a386db053e062680e498830e26541f8",
                 "shasum": ""
             },
             "require": {
@@ -103,7 +103,7 @@
                 "console-color",
                 "library"
             ],
-            "time": "2017-10-19 16:34:10"
+            "time": "2017-10-23 16:43:35"
         },
         {
             "name": "inhere/event",
@@ -158,16 +158,15 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inhere/php-http.git",
-                "reference": "af334b1c9203321e351367e5ea6bb4c766f5e7ed"
+                "reference": "e0a2b3849b1a5102dd50a61c0d42a302addada66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/inhere/php-http/af334b1c9203321e351367e5ea6bb4c766f5e7ed.zip",
-                "reference": "af334b1c9203321e351367e5ea6bb4c766f5e7ed",
+                "url": "https://files.phpcomposer.com/files/inhere/php-http/e0a2b3849b1a5102dd50a61c0d42a302addada66.zip",
+                "reference": "e0a2b3849b1a5102dd50a61c0d42a302addada66",
                 "shasum": ""
             },
             "require": {
-                "inhere/library": "dev-master",
                 "php": ">=7.0.0",
                 "psr/http-message": "^1.0"
             },
@@ -200,7 +199,7 @@
                 "library",
                 "tool"
             ],
-            "time": "2017-10-20 06:15:50"
+            "time": "2017-10-23 02:23:38"
         },
         {
             "name": "inhere/library",
@@ -208,12 +207,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inhere/php-librarys.git",
-                "reference": "f3e4f46033d11d233a2ba9d05ab9e8354b97cbfd"
+                "reference": "4923429dc760859a1466fc7cff15911232b9033e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/inhere/php-librarys/f3e4f46033d11d233a2ba9d05ab9e8354b97cbfd.zip",
-                "reference": "f3e4f46033d11d233a2ba9d05ab9e8354b97cbfd",
+                "url": "https://files.phpcomposer.com/files/inhere/php-librarys/4923429dc760859a1466fc7cff15911232b9033e.zip",
+                "reference": "4923429dc760859a1466fc7cff15911232b9033e",
                 "shasum": ""
             },
             "require": {
@@ -254,7 +253,7 @@
                 "php",
                 "tool"
             ],
-            "time": "2017-10-20 10:00:59"
+            "time": "2017-10-23 16:35:45"
         },
         {
             "name": "inhere/middleware",
@@ -262,12 +261,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inhere/php-middleware.git",
-                "reference": "455f5925aabd6cce3857e0f023d7bec209e538d3"
+                "reference": "44820fc2566f9c59e0b512efdd9e28ce07e472c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/inhere/php-middleware/455f5925aabd6cce3857e0f023d7bec209e538d3.zip",
-                "reference": "455f5925aabd6cce3857e0f023d7bec209e538d3",
+                "url": "https://files.phpcomposer.com/files/inhere/php-middleware/44820fc2566f9c59e0b512efdd9e28ce07e472c4.zip",
+                "reference": "44820fc2566f9c59e0b512efdd9e28ce07e472c4",
                 "shasum": ""
             },
             "require": {
@@ -304,7 +303,7 @@
                 "psr-15",
                 "psr-7"
             ],
-            "time": "2017-10-20 10:06:04"
+            "time": "2017-10-22 15:23:54"
         },
         {
             "name": "inhere/php-validate",
@@ -410,12 +409,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inhere/php-simple-activeRecord.git",
-                "reference": "235f5fc69c4652454188845c71fcddf117d3bf09"
+                "reference": "8c8db4d1ecf15e1259c95a3ea66d7a6317297c0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/inhere/php-simple-activeRecord/235f5fc69c4652454188845c71fcddf117d3bf09.zip",
-                "reference": "235f5fc69c4652454188845c71fcddf117d3bf09",
+                "url": "https://files.phpcomposer.com/files/inhere/php-simple-activeRecord/8c8db4d1ecf15e1259c95a3ea66d7a6317297c0b.zip",
+                "reference": "8c8db4d1ecf15e1259c95a3ea66d7a6317297c0b",
                 "shasum": ""
             },
             "require": {
@@ -457,7 +456,7 @@
                 "php",
                 "tool"
             ],
-            "time": "2017-10-20 02:21:10"
+            "time": "2017-10-23 16:35:09"
         },
         {
             "name": "inhere/sroute",
@@ -1165,12 +1164,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inhere/simple-print-tool.git",
-                "reference": "84ed5a2fb3d2538e415e757a04f3890ca1c9b135"
+                "reference": "e150b99e88e93efe034f4031a5dbfa2f434cf704"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/inhere/simple-print-tool/84ed5a2fb3d2538e415e757a04f3890ca1c9b135.zip",
-                "reference": "84ed5a2fb3d2538e415e757a04f3890ca1c9b135",
+                "url": "https://files.phpcomposer.com/files/inhere/simple-print-tool/e150b99e88e93efe034f4031a5dbfa2f434cf704.zip",
+                "reference": "e150b99e88e93efe034f4031a5dbfa2f434cf704",
                 "shasum": ""
             },
             "require": {
@@ -1203,7 +1202,7 @@
                 "print",
                 "tool"
             ],
-            "time": "2017-10-06 17:11:32"
+            "time": "2017-10-23T06:38:31+00:00"
         }
     ],
     "aliases": [],
