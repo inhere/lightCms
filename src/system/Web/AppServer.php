@@ -8,6 +8,7 @@
 
 namespace LightCms\Web;
 
+use Inhere\Server\Helpers\Psr7Http;
 use Inhere\Server\Servers\HttpServer;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
@@ -21,9 +22,21 @@ class AppServer extends HttpServer
     /** @var  App */
     private $app;
 
+    /**
+     * @param Request $request
+     * @param Response $response
+     */
     protected function handleHttpRequest(Request $request, Response $response)
     {
-        $this->app->handleHttp($request, $response);
+        $psr7Req = Psr7Http::createRequest($request);
+        $psr7Res = Psr7Http::createResponse([
+            'Content-Type' => 'text/html; charset=' . \Sys::get('config')->get('charset', 'UTF-8')
+        ]);
+
+        // handle request
+        $psr7Res = $this->app->handleHttp($psr7Req, $psr7Res);
+
+        Psr7Http::respond($psr7Res, $response);
     }
 
     /**

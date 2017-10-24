@@ -16,6 +16,7 @@ use Inhere\Http\HttpFactory;
 use Inhere\Http\ServerRequest;
 use Inhere\Library\Components\ErrorHandler;
 use Inhere\Library\DI\Container;
+use Inhere\Library\Helpers\Http;
 use Inhere\Middleware\MiddlewareAwareTrait;
 use Inhere\Route\ORouter;
 use Inhere\Route\RouterInterface;
@@ -24,7 +25,6 @@ use LightCms\Base\AppTrait;
 use LightCms\Exceptions\MethodNotAllowedException;
 use LightCms\Exceptions\NotFoundException;
 use LightCms\Exceptions\RequestException;
-use LightCms\Helpers\HttpHelper;
 use LightCms\Web\Handlers\ErrorRenderer;
 
 use Psr\Http\Message\MessageInterface;
@@ -32,9 +32,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Throwable;
-
-use Swoole\Http\Request as SwRequest;
-use Swoole\Http\Response as SwResponse;
 
 /**
  * Class App
@@ -79,12 +76,18 @@ class App
      *******************************************************************************/
 
     /**
-     * @param SwRequest $request
-     * @param SwResponse $response
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @return ResponseInterface
      */
-    public function handleHttp(SwRequest $request, SwResponse $response)
+    public function handleHttp(ServerRequestInterface $request, ResponseInterface $response)
     {
-        $response->end('hello, by swoole');
+        // $response->end('hello, by swoole');
+        $response = $this->process($request, $response);
+
+        // $this->respond($response);
+
+        return $response;
     }
 
     /********************************************************************************
@@ -152,7 +155,7 @@ class App
      */
     public function respond(ResponseInterface $response)
     {
-        HttpHelper::respond($response, $this->di->get('config')->get('response'));
+        Http::respond($response, $this->di->get('config')->get('response'));
     }
 
     /**
@@ -277,7 +280,7 @@ class App
         $uriPath = '/' . ltrim($request->getUri()->getPath(), '/');
 
         // if 'filterFavicon' setting is TRUE
-        if ($uriPath === HttpHelper::FAV_ICON && $this->di->get('config')['filterFavicon']) {
+        if ($uriPath === Http::FAV_ICON && $this->di->get('config')['filterFavicon']) {
             $this->end('+ICON');
         }
 
@@ -306,7 +309,7 @@ class App
         // stop PHP sending a Content-Type automatically
         ini_set('default_mimetype', '');
 
-        if (HttpHelper::isEmptyResponse($response)) {
+        if (Http::isEmptyResponse($response)) {
             return $response->withoutHeader('Content-Type')->withoutHeader('Content-Length');
         }
 

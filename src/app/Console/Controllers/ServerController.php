@@ -42,10 +42,10 @@ class ServerController extends Controller
      * start the application server
      * @options
      *  -d, --daemon  run app server on the background
+     * @throws \Throwable
      */
     public function startCommand()
     {
-        ServerHelper::checkRuntimeEnv();
         $daemon = $this->getSameOpt(['d', 'daemon']);
 
         $this->createServer()->asDaemon($daemon)->start();
@@ -58,7 +58,6 @@ class ServerController extends Controller
      */
     public function restartCommand()
     {
-        ServerHelper::checkRuntimeEnv();
         $daemon = $this->input->getSameOpt(['d', 'daemon']);
 
         $this->createServer()->asDaemon($daemon)->restart();
@@ -71,7 +70,6 @@ class ServerController extends Controller
      */
     public function reloadCommand()
     {
-        ServerHelper::checkRuntimeEnv();
         $onlyTask = $this->input->getSameOpt(['task']);
 
         $this->createServer()->reload($onlyTask);
@@ -82,8 +80,6 @@ class ServerController extends Controller
      */
     public function stopCommand()
     {
-        ServerHelper::checkRuntimeEnv();
-        //$this->write('hello stop');
         $this->createServer()->stop();
     }
 }

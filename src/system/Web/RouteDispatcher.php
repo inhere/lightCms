@@ -84,10 +84,6 @@ class RouteDispatcher
             } catch (Throwable $e) {
                 ob_end_clean();
                 throw $e;
-                // @codeCoverageIgnoreEnd
-            } catch (Exception $e) {
-                ob_end_clean();
-                throw $e;
             }
         }
 

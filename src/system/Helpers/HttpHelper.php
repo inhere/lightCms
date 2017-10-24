@@ -16,5 +16,4 @@ use Inhere\Library\Helpers\Http;
  */
 class HttpHelper extends Http
 {
-    const FAV_ICON = '/favicon.ico';
 }

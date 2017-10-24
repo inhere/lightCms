@@ -20,7 +20,7 @@ return [
     ],
     'log' => [
         'name' => 'server',
-        'file' => BASE_PATH . '/tmp/logs/server/server.log',
+        'file' => BASE_PATH . '/user/tmp/logs/server/server.log',
         'level' => \Monolog\Logger::DEBUG,
         'splitType' => 1,
         'bufferSize' => 0, //0 1000,
@@ -30,14 +30,18 @@ return [
     // @see \Inhere\Server\Traits\HttpServerTrait::$options
     'options' => [
         'ignoreFavicon' => true,
+        'enableStatic' => false,
+        'staticSettings' => [
+            'basePath' => BASE_PATH,
+        ]
     ],
 
     // main server
     'main_server' => [
-        'type' => 'ws', // http https tcp udp ws wss
+        'type' => 'http', // http https tcp udp ws wss
         'port' => 9501,
         'extend_events' => [
-            'onConnect',
+//            'onConnect',
             'onRequest', // 增加 http 请求支持
         ],
     ],
