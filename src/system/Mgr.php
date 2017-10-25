@@ -15,12 +15,11 @@ use Inhere\Library\Traits\PathAliasTrait;
 use Inhere\Library\Traits\LogShortTrait;
 
 /**
- * Class Sys
+ * Class Mgr - Mgr::$app
  */
-class Sys
+class Mgr
 {
-    use PathAliasTrait;
-    use LogShortTrait;
+    use PathAliasTrait, LogShortTrait;
 
     /**
      * defined path aliases

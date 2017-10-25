@@ -7,7 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ErrorController;
 use App\Http\Controllers\TestController;
 
-$router = \Sys::$di->get('router');
+$router = \Mgr::$di->get('router');
 
 $router->get('/', HomeController::class . '@index');
 

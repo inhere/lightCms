@@ -33,7 +33,7 @@ class App extends Application implements AppInterface
      */
     public function __construct(Container $di = null)
     {
-        \Sys::$app = $this;
+        \Mgr::$app = $this;
 
         $this->di = $di ?: new Container;
         $this->di->registerServiceProvider(new DefaultServicesProvider);

@@ -16,3 +16,14 @@ $server->on(AppServer::ON_BOOTSTRAP, function (AppServer $svr) {
 
   $svr->setApp($app);
 });
+
+$server->on(AppServer::ON_SERVER_CREATE, function () {
+    // prepare load classes
+//  $req = HttpFactory::createServerRequest('GET', Uri::createFromString('/'));
+//  $res = HttpFactory::createResponse();
+});
+
+// 启动worker 后
+$server->on(AppServer::ON_WORKER_STARTED, function (AppServer $server) {
+
+});

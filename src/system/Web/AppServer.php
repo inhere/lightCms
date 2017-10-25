@@ -30,7 +30,7 @@ class AppServer extends HttpServer
     {
         $psr7Req = Psr7Http::createRequest($request);
         $psr7Res = Psr7Http::createResponse([
-            'Content-Type' => 'text/html; charset=' . \Sys::get('config')->get('charset', 'UTF-8')
+            'Content-Type' => 'text/html; charset=' . \Mgr::get('config')->get('charset', 'UTF-8')
         ]);
 
         // handle request

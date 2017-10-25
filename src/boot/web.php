@@ -7,7 +7,7 @@ use LightCms\Web\App;
 defined('IN_SWOOLE') || define('IN_SWOOLE', false);
 
 /** @var Inhere\Library\DI\Container $di */
-$di = Sys::$di = ContainerManager::make();
+$di = Mgr::$di = ContainerManager::make();
 
 // register some service components
 $di->set('config', function () {

@@ -41,7 +41,7 @@ abstract class BaseController
 
     protected function resolveView(string $view)
     {
-        return \Sys::alias($view);
+        return \Mgr::alias($view);
     }
 
     /**
@@ -52,7 +52,7 @@ abstract class BaseController
      */
     public function redirect($url, $status = 302, $response = null)
     {
-        $response = $response ?: \Sys::$di['response'];
+        $response = $response ?: \Mgr::$di['response'];
 
         return $response->redirect($url, $status);
     }
@@ -62,6 +62,6 @@ abstract class BaseController
      */
     public function getRenderer()
     {
-        return \Sys::$di->get('renderer');
+        return \Mgr::$di->get('renderer');
     }
 }

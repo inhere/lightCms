@@ -5,30 +5,30 @@ use Inhere\Library\Components\Language;
 function app($id = null)
 {
     if ($id) {
-        return \Sys::$di->get($id);
+        return \Mgr::$di->get($id);
     }
 
-    return \Sys::$app;
+    return \Mgr::$app;
 }
 
 function di($name = null)
 {
     if ($name) {
-        return \Sys::$di->get($name);
+        return \Mgr::$di->get($name);
     }
 
-    return \Sys::$di;
+    return \Mgr::$di;
 }
 
 function tl($key, array $args = [], $lang = null)
 {
     /** @see Language::translate() */
-    return \Sys::$di->get('lang')->translate($key, $args, $lang);
+    return \Mgr::$di->get('lang')->translate($key, $args, $lang);
 }
 
 function app_path($path)
 {
-    return \Sys::alias($path);
+    return \Mgr::alias($path);
 }
 
 function app_plugin()
@@ -37,5 +37,5 @@ function app_plugin()
 
 function cms_data()
 {
-    return \Sys::$di->get('dataProxy');
+    return \Mgr::$di->get('dataProxy');
 }

@@ -31,7 +31,7 @@ return [
             'splitType' => 1,
             'bufferSize' => 1000, // 1000,
             'pathResolver' => function ($path) {
-                return \Sys::alias($path);
+                return \Mgr::alias($path);
             }
         ],
         'lang' => [

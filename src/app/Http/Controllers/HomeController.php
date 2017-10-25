@@ -19,15 +19,15 @@ class HomeController extends BaseController
     public function indexAction()
     {
         $content = 'hello, welcome!! this is ' . __METHOD__;
-//de(\Sys::get('config')->all());
+//de(\Mgr::get('config')->all());
 
-        d(\Sys::get('logger'));
+        d(\Mgr::get('logger'));
 
-        \Sys::get('logger')->info('a message test');
-        \Sys::get('logger')->notice('a notice test');
-        \Sys::get('logger')->flush();
+        \Mgr::get('logger')->info('a message test');
+        \Mgr::get('logger')->notice('a notice test');
+        \Mgr::get('logger')->flush();
 
-        de(\Sys::get('logger'));
+        de(\Mgr::get('logger'));
 
         return $this->renderContent($content);
     }
@@ -61,7 +61,7 @@ class HomeController extends BaseController
 
     public function json()
     {
-        \Sys::trace('test info');
+        \Mgr::trace('test info');
 
         Micro::$app->output->json([
             'code' => 0,
