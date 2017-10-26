@@ -1,11 +1,11 @@
 <?php
 
 use Inhere\Library\Collections\Configuration;
-use Inhere\Library\DI\ContainerManager;
+use Inhere\Library\DI\Container;
 use LightCms\Console\App;
 
-/** @var Inhere\Library\DI\Container $di */
-$di = Mgr::$di = ContainerManager::make();
+/** @var Container $di */
+$di = Mgr::$di = new Container();
 
 // register some service components
 $di->set('config', function () {

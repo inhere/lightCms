@@ -19,13 +19,6 @@ class ServerController extends Controller
     protected static $name = 'server';
     protected static $description = 'manage the swoole application server runtime. [<info>built in</info>]';
 
-    protected function init()
-    {
-        parent::init();
-
-        $this->showMore = false;
-    }
-
     /**
      * @return AppServer
      */
@@ -35,6 +28,21 @@ class ServerController extends Controller
         require BASE_PATH . '/src/boot/server.php';
 
         return $server;
+    }
+
+    /**
+     * run a php built-in server for development(is alias of the command 'dev:serve')
+     * @usage
+     *  {command} [-S HOST:PORT]
+     *  {command} [-H HOST] [-p PORT]
+     * @options
+     *  -S         The server address. e.g 127.0.0.1:5577
+     *  -H,--host  The server host address. e.g 127.0.0.1
+     *  -p,--port  The server host address. e.g 5577
+     */
+    public function devCommand()
+    {
+        return $this->app->runAction(DevController::getName(), 'serve', true);
     }
 
     /**

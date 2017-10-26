@@ -1,5 +1,8 @@
 #!/usr/bin/env php
 <?php
+/**
+ * this is entry for console application.
+ */
 
 define('BASE_PATH', dirname(__DIR__) );
 

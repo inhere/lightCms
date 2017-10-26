@@ -1,13 +1,13 @@
 <?php
 
-use Inhere\Library\DI\ContainerManager;
+use Inhere\Library\DI\Container;
 use Inhere\Library\Collections\Configuration;
 use LightCms\Web\App;
 
 defined('IN_SWOOLE') || define('IN_SWOOLE', false);
 
-/** @var Inhere\Library\DI\Container $di */
-$di = Mgr::$di = ContainerManager::make();
+/** @var Container $di */
+$di = Mgr::$di = new Container();
 
 // register some service components
 $di->set('config', function () {

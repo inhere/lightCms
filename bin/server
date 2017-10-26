@@ -1,5 +1,8 @@
 #!/usr/env/php
 <?php
+/**
+ * this is a short entry for swoole server manage.
+ */
 
 use App\Console\Controllers\ServerController;
 use Inhere\Console\Application;

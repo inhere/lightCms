@@ -23,4 +23,5 @@ $app->controllers([
     \App\Console\Controllers\DevController::class,
     \App\Console\Controllers\CmsController::class,
     \App\Console\Controllers\PluginController::class,
+    \App\Console\Controllers\ServerController::class,
 ]);

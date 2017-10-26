@@ -1,6 +1,7 @@
 #!/usr/bin/env php
 <?php
 /**
+ * @var APP $app
  * @var AppServer $server
  * @usage `php bin/server start|stop|...`
  */
@@ -10,11 +11,13 @@ use LightCms\Web\AppServer;
 
 $server = new AppServer(require dirname(__DIR__) . '/config/server.php');
 
-$server->on(AppServer::ON_BOOTSTRAP, function (AppServer $svr) {
-  /** @var APP $app */
-  require __DIR__ . '/web.php';
+// init web container, web app
+require __DIR__ . '/web.php';
 
-  $svr->setApp($app);
+$server->setApp($app);
+
+$server->on(AppServer::ON_BOOTSTRAP, function (AppServer $svr) {
+
 });
 
 $server->on(AppServer::ON_SERVER_CREATE, function () {
