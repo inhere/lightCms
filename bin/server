@@ -20,4 +20,4 @@ $app->controller('server', ServerController::class);
 // run
 $status = $app->runAction('server', $app->getInput()->getCommand(), true, true);
 
-exit((int)$status);
+$app->stop($status);
