@@ -37,4 +37,15 @@ class AssetController extends Controller
         $this->write('test');
     }
 
+    /**
+     * merge asset from input name. there are names defined in config.
+     *
+     * @options
+     *  --js The javascript files. multi use ','
+     */
+    public function mergeCommand()
+    {
+        $this->write('test');
+    }
+
 }
