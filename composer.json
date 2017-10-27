@@ -37,7 +37,7 @@
   },
   "autoload": {
       "classmap": [
-        "./src/system/Sys.php"
+        "./src/system/Mgr.php"
       ],
       "files": [
         "./src/system/functions.php"

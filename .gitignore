@@ -7,3 +7,4 @@ tmp/*
 .git/
 *.log
 *.pid
+*.tar
