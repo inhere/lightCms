@@ -7,7 +7,7 @@
  */
 
 if (!defined('BASE_PATH')) {
-    throw new \LogicException('Must be defined the constant [BASE_PATH - the project root path]');
+    throw new \LogicException('Must be defined the constant BASE_PATH - the project root path');
 }
 
 use Inhere\Library\DI\Container;

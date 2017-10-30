@@ -10,8 +10,13 @@
 namespace LightCms\Components;
 
 use Closure;
+use LightCms\Base\CallableResolverAwareTrait;
 use Psr\Container\ContainerInterface;
 
+/**
+ * Class DeferredCallable
+ * @package LightCms\Components
+ */
 class DeferredCallable
 {
     use CallableResolverAwareTrait;
