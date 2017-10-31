@@ -6,11 +6,11 @@
  * Time: 18:58
  */
 
-namespace LightCms\Web;
+namespace Micro\Web;
 
 /**
  * Class AloneAction
- * @package LightCms\Web
+ * @package Micro\Web
  */
 abstract class AloneAction
 {

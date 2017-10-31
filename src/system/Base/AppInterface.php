@@ -6,7 +6,7 @@
  * Time: 上午12:57
  */
 
-namespace LightCms\Base;
+namespace Micro\Base;
 
 use Inhere\Library\DI\Container;
 

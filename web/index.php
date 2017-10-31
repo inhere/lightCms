@@ -1,6 +1,6 @@
 <?php
 
-use LightCms\Web\App;
+use Micro\Web\App;
 
 define('BASE_PATH', dirname(__DIR__));
 

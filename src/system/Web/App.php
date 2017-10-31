@@ -7,7 +7,7 @@
  * @ref Slim Framework (https://slimframework.com) `Slim\App`
  */
 
-namespace LightCms\Web;
+namespace Micro\Web;
 
 use Exception;
 use Inhere\Http\Body;
@@ -21,11 +21,11 @@ use Inhere\Middleware\MiddlewareAwareTrait;
 use Inhere\Route\ORouter;
 use Inhere\Route\RouterInterface;
 
-use LightCms\Base\AppTrait;
-use LightCms\Exceptions\MethodNotAllowedException;
-use LightCms\Exceptions\NotFoundException;
-use LightCms\Exceptions\RequestException;
-use LightCms\Web\Handlers\ErrorRenderer;
+use Micro\Base\AppTrait;
+use Micro\Exceptions\MethodNotAllowedException;
+use Micro\Exceptions\NotFoundException;
+use Micro\Exceptions\RequestException;
+use Micro\Web\Handlers\ErrorRenderer;
 
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -35,7 +35,7 @@ use Throwable;
 
 /**
  * Class App
- * @package LightCms\Web
+ * @package Micro\Web
  */
 class App
 {

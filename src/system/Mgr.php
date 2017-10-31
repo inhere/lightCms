@@ -37,7 +37,7 @@ class Mgr
     ];
 
     /**
-     * @var \LightCms\Base\AppInterface
+     * @var \Micro\Base\AppInterface
      */
     public static $app;
 
@@ -47,7 +47,7 @@ class Mgr
     public static $di;
 
     /**
-     * @return \LightCms\Base\AppInterface
+     * @return \Micro\Base\AppInterface
      */
     public static function app()
     {

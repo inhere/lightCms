@@ -6,13 +6,13 @@
  * Time: 18:58
  */
 
-namespace LightCms\Plugins\SiteMap;
+namespace Micro\Plugins\SiteMap;
 
-use LightCms\Web\AloneAction;
+use Micro\Web\AloneAction;
 
 /**
  * Class SiteMap
- * @package LightCms\Components
+ * @package Micro\Components
  */
 class SiteMap extends AloneAction
 {

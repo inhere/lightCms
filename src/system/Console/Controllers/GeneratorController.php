@@ -6,7 +6,7 @@
  * Time: 11:26
  */
 
-namespace LightCms\Console\Controllers;
+namespace Micro\Console\Controllers;
 
 use Inhere\Console\Controller;
 use Inhere\Library\Files\Directory;
@@ -14,7 +14,7 @@ use Inhere\Validate\Validation;
 
 /**
  * Class GeneratorController
- * @package LightCms\Console\Controllers
+ * @package Micro\Console\Controllers
  *
  */
 class GeneratorController extends Controller

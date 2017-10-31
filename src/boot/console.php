@@ -2,7 +2,7 @@
 
 use Inhere\Library\Collections\Configuration;
 use Inhere\Library\DI\Container;
-use LightCms\Console\App;
+use Micro\Console\App;
 
 /** @var Container $di */
 $di = Mgr::$di = new Container();

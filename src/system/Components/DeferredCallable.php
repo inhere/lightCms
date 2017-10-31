@@ -7,15 +7,15 @@
  * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
 
-namespace LightCms\Components;
+namespace Micro\Components;
 
 use Closure;
-use LightCms\Base\CallableResolverAwareTrait;
+use Micro\Base\CallableResolverAwareTrait;
 use Psr\Container\ContainerInterface;
 
 /**
  * Class DeferredCallable
- * @package LightCms\Components
+ * @package Micro\Components
  */
 class DeferredCallable
 {
@@ -37,15 +37,17 @@ class DeferredCallable
         $this->container = $container;
     }
 
-    public function __invoke()
+    /**
+     * @return mixed
+     */
+    public function __invoke(...$args)
     {
         $callable = $this->resolveCallable($this->callable);
+        
         if ($callable instanceof Closure) {
             $callable = $callable->bindTo($this->container);
         }
 
-        $args = func_get_args();
-
-        return call_user_func_array($callable, $args);
+        return $callable(...$args);
     }
 }

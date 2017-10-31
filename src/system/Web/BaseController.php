@@ -6,7 +6,7 @@
  * Time: 18:58
  */
 
-namespace LightCms\Web;
+namespace Micro\Web;
 
 use Inhere\Http\Response;
 use Inhere\Library\Web\ViewRenderer;
@@ -14,7 +14,7 @@ use Inhere\Library\Web\ViewRendererTrait;
 
 /**
  * Class BaseController
- * @package LightCms\Web
+ * @package Micro\Web
  */
 abstract class BaseController
 {

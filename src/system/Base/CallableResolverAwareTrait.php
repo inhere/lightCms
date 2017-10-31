@@ -6,7 +6,7 @@
  * @copyright Copyright (c) 2011-2017 Josh Lockhart
  * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
-namespace LightCms\Base;
+namespace Micro\Base;
 
 use RuntimeException;
 use Psr\Container\ContainerInterface;

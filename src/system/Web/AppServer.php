@@ -6,7 +6,7 @@
  * Time: 9:48
  */
 
-namespace LightCms\Web;
+namespace Micro\Web;
 
 use Inhere\Server\Helpers\Psr7Http;
 use Inhere\Server\Servers\HttpServer;
@@ -15,7 +15,7 @@ use Swoole\Http\Response;
 
 /**
  * Class AppServer
- * @package LightCms\Web
+ * @package Micro\Web
  */
 class AppServer extends HttpServer
 {

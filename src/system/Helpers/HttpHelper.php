@@ -6,13 +6,13 @@
  * Time: 14:42
  */
 
-namespace LightCms\Helpers;
+namespace Micro\Helpers;
 
 use Inhere\Library\Helpers\Http;
 
 /**
  * Class HttpHelper
- * @package LightCms\Helpers
+ * @package Micro\Helpers
  */
 class HttpHelper extends Http
 {

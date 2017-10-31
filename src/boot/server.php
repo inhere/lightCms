@@ -6,8 +6,8 @@
  * @usage `php bin/server start|stop|...`
  */
 
-use LightCms\Web\App;
-use LightCms\Web\AppServer;
+use Micro\Web\App;
+use Micro\Web\AppServer;
 
 $server = new AppServer(require dirname(__DIR__) . '/config/server.php');
 

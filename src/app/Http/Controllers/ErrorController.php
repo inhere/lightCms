@@ -8,7 +8,7 @@
 
 namespace App\Http\Controllers;
 
-use LightCms\Web\BaseController;
+use Micro\Web\BaseController;
 
 /**
  * class ErrorController

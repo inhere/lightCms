@@ -5,7 +5,7 @@
  * Date: 2017-10-18
  * Time: 18:58
  */
-namespace LightCms\Console;
+namespace Micro\Console;
 
 use Inhere\Console\IO\Input;
 use Inhere\Console\IO\InputInterface;
@@ -13,9 +13,9 @@ use Inhere\Console\IO\Output;
 use Inhere\Console\IO\OutputInterface;
 use Inhere\Library\DI\Container;
 use Inhere\Library\DI\ServiceProviderInterface;
-use LightCms\Base\CallableResolver;
-use LightCms\Base\CallableResolverInterface;
-use LightCms\Web\Handlers\ErrorRenderer;
+use Micro\Base\CallableResolver;
+use Micro\Base\CallableResolverInterface;
+use Micro\Web\Handlers\ErrorRenderer;
 
 /**
  * the default Service Provider.

@@ -9,7 +9,7 @@
 namespace App\Console\Controllers;
 
 use Inhere\Console\Controller;
-use LightCms\Web\AppServer;
+use Micro\Web\AppServer;
 
 /**
  * ServerController

@@ -6,14 +6,14 @@
  * Time: 14:27
  */
 
-namespace LightCms\Exceptions;
+namespace Micro\Exceptions;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class MethodNotAllowedException
- * @package LightCms\Exceptions
+ * @package Micro\Exceptions
  */
 class MethodNotAllowedException extends RequestException
 {

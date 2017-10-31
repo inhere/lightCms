@@ -5,7 +5,7 @@
  * Date: 2017-10-18
  * Time: 18:58
  */
-namespace LightCms\Web;
+namespace Micro\Web;
 
 use Inhere\Http\Headers;
 use Inhere\Http\HttpFactory;
@@ -13,11 +13,11 @@ use Inhere\Http\Response;
 use Inhere\Library\DI\Container;
 use Inhere\Library\DI\ServiceProviderInterface;
 use Inhere\Library\Web\Environment;
-use LightCms\Base\CallableResolver;
-use LightCms\Base\CallableResolverInterface;
-use LightCms\Web\Handlers\ErrorRenderer;
-use LightCms\Web\Handlers\NotAllowed;
-use LightCms\Web\Handlers\NotFound;
+use Micro\Base\CallableResolver;
+use Micro\Base\CallableResolverInterface;
+use Micro\Web\Handlers\ErrorRenderer;
+use Micro\Web\Handlers\NotAllowed;
+use Micro\Web\Handlers\NotFound;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 

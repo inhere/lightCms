@@ -6,11 +6,11 @@
  * Time: 18:58
  */
 
-namespace LightCms\Components;
+namespace Micro\Components;
 
 /**
  * Class PluginManager
- * @package LightCms\Components
+ * @package Micro\Components
  */
 class PluginManager
 {

@@ -4,7 +4,7 @@
  * User: inhere
  * Date: 2017-03-17
  * Time: 11:20
- * @var \LightCms\Console\App $app
+ * @var \Micro\Console\App $app
  */
 
 //use App\Console\Commands\PackCommand;

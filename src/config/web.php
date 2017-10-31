@@ -6,7 +6,7 @@
 use Inhere\Library\Helpers\Arr;
 use Inhere\Library\Web\ViewRenderer;
 use Inhere\Route\ORouter;
-use LightCms\Web\RouteDispatcher;
+use Micro\Web\RouteDispatcher;
 
 return Arr::merge(require __DIR__ . '/_common.php', [
 

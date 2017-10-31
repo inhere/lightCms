@@ -6,11 +6,11 @@
  * Time: 14:27
  */
 
-namespace LightCms\Exceptions;
+namespace Micro\Exceptions;
 
 /**
  * Class NotFoundException
- * @package LightCms\Exceptions
+ * @package Micro\Exceptions
  */
 class NotFoundException extends RequestException
 {

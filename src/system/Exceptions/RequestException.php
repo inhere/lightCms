@@ -6,14 +6,14 @@
  * Time: 14:23
  */
 
-namespace LightCms\Exceptions;
+namespace Micro\Exceptions;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class RequestException - This is a Stop Run exception and contains the response
- * @package LightCms\Exceptions
+ * @package Micro\Exceptions
  */
 class RequestException extends \Exception
 {

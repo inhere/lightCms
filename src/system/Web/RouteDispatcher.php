@@ -6,12 +6,12 @@
  * Time: 16:11
  */
 
-namespace LightCms\Web;
+namespace Micro\Web;
 
 use Exception;
 use Inhere\Http\Body;
 use Inhere\Route\AbstractRouter;
-use LightCms\Exceptions\NotFoundException;
+use Micro\Exceptions\NotFoundException;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -19,7 +19,7 @@ use Throwable;
 
 /**
  * Class RouteDispatcher
- * @package LightCms\Web\Handlers
+ * @package Micro\Web\Handlers
  */
 class RouteDispatcher
 {

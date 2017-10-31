@@ -2,7 +2,7 @@
 
 use Inhere\Library\DI\Container;
 use Inhere\Library\Collections\Configuration;
-use LightCms\Web\App;
+use Micro\Web\App;
 
 defined('IN_SWOOLE') || define('IN_SWOOLE', false);
 

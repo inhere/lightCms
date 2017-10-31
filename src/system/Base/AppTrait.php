@@ -5,14 +5,14 @@
  * Date: 2017-09-19
  * Time: 15:06
  */
-namespace LightCms\Base;
+namespace Micro\Base;
 
 use Inhere\Library\Collections\Configuration;
 use Inhere\Library\DI\Container;
 
 /**
  * Class AppTrait
- * @package LightCms\Base
+ * @package Micro\Base
  */
 trait AppTrait
 {

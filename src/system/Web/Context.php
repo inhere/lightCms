@@ -6,7 +6,7 @@
  * Time: 9:58
  */
 
-namespace LightCms\Web;
+namespace Micro\Web;
 
 use Inhere\Http\Response;
 use Inhere\Http\ServerRequest;
@@ -16,7 +16,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class Context - a simple htt request context
- * @package LightCms\Web
+ * @package Micro\Web
  */
 class Context
 {

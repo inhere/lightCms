@@ -9,7 +9,7 @@
 namespace App\Http\Controllers;
 
 use Inhere\Library\Utils\LiteLogger;
-use LightCms\Web\BaseController;
+use Micro\Web\BaseController;
 
 /**
  * class HomeController

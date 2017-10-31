@@ -1,15 +1,15 @@
 <?php
 
-namespace LightCms\Console;
+namespace Micro\Console;
 
 use Inhere\Console\Application;
 use Inhere\Library\DI\Container;
-use LightCms\Base\AppInterface;
-use LightCms\Base\AppTrait;
+use Micro\Base\AppInterface;
+use Micro\Base\AppTrait;
 
 /**
  * Class ConsoleApp
- * @package LightCms\Console
+ * @package Micro\Console
  */
 class App extends Application implements AppInterface
 {
@@ -39,7 +39,7 @@ class App extends Application implements AppInterface
         $this->di->registerServiceProvider(new DefaultServicesProvider);
 
         $meta = [
-            'name' => 'LightCms Console',
+            'name' => 'Micro Console',
             'version' => '0.0.1',
             'publishAt' => '2017.10.19',
             'debug' => $this->di->get('config')['debug'],
