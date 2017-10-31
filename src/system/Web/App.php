@@ -19,6 +19,7 @@ use Inhere\Library\DI\Container;
 use Inhere\Library\Helpers\Http;
 use Inhere\Middleware\MiddlewareAwareTrait;
 use Inhere\Route\ORouter;
+use Inhere\Route\Dispatcher;
 use Inhere\Route\RouterInterface;
 
 use Micro\Base\AppTrait;
@@ -280,7 +281,7 @@ class App
         $uriPath = '/' . ltrim($request->getUri()->getPath(), '/');
 
         // if 'filterFavicon' setting is TRUE
-        if ($uriPath === Http::FAV_ICON && $this->di->get('config')['filterFavicon']) {
+        if ($uriPath === Dispatcher::FAV_ICON && $this->di->get('config')['filterFavicon']) {
             $this->end('+ICON');
         }
 

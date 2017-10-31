@@ -19,7 +19,7 @@ class DevController extends Controller
     protected static $description = 'Some useful development tool commands';
 
     /**
-     * run a php built-in server for development
+     * run a php built-in server for development(is alias of the command 'server:dev')
      * @usage
      *  {command} [-S HOST:PORT]
      *  {command} [-H HOST] [-p PORT]
@@ -30,30 +30,7 @@ class DevController extends Controller
      */
     public function serveCommand()
     {
-        if (!$server = $this->getOpt('S')) {
-            $server = $this->getSameOpt(['H', 'host'], '127.0.0.1');
-        }
-
-        if (!strpos($server, ':')) {
-            $port = $this->getSameOpt(['p', 'port'], 5577);
-            $server .= ':' . $port;
-        }
-
-        $version = PHP_VERSION;
-        $workDir = $this->input->getPwd();
-        $this->write("PHP $version Development Server started\nServer listening on <info>$server</info>");
-        $this->write("Document root is <comment>$workDir/web</comment>");
-        $this->write('You can use <comment>CTRL + C</comment> to stop run.');
-
-        $command = "php -S {$server} -t web web/index.php";
-
-        if (function_exists('system')) {
-            system($command);
-        } elseif (function_exists('passthru')) {
-            passthru($command);
-        } elseif (function_exists('exec')) {
-            exec($command);
-        }
+        return $this->app->runAction(ServerController::getName(), 'dev', true);
     }
 
     /**
