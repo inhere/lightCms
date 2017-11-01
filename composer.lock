@@ -4,6 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
+    "hash": "48c716cf6afb450fc960d99e6394bff9",
     "content-hash": "865d2936ce030a0961707baef6552a28",
     "packages": [
         {
@@ -55,7 +56,7 @@
             "keywords": [
                 "promise"
             ],
-            "time": "2016-12-20T10:07:11+00:00"
+            "time": "2016-12-20 10:07:11"
         },
         {
             "name": "inhere/console",
@@ -63,12 +64,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inhere/php-console.git",
-                "reference": "0cd48f324a386db053e062680e498830e26541f8"
+                "reference": "618fac2a02b383a231181432d60d0b8094a4485b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/inhere/php-console/0cd48f324a386db053e062680e498830e26541f8.zip",
-                "reference": "0cd48f324a386db053e062680e498830e26541f8",
+                "url": "https://files.phpcomposer.com/files/inhere/php-console/618fac2a02b383a231181432d60d0b8094a4485b.zip",
+                "reference": "618fac2a02b383a231181432d60d0b8094a4485b",
                 "shasum": ""
             },
             "require": {
@@ -103,7 +104,7 @@
                 "console-color",
                 "library"
             ],
-            "time": "2017-10-23 16:43:35"
+            "time": "2017-10-31 02:12:11"
         },
         {
             "name": "inhere/event",
@@ -207,12 +208,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inhere/php-librarys.git",
-                "reference": "4923429dc760859a1466fc7cff15911232b9033e"
+                "reference": "a7ddac8d052b2acca6f6fc9a9f09c81458e9311d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/inhere/php-librarys/4923429dc760859a1466fc7cff15911232b9033e.zip",
-                "reference": "4923429dc760859a1466fc7cff15911232b9033e",
+                "url": "https://files.phpcomposer.com/files/inhere/php-librarys/a7ddac8d052b2acca6f6fc9a9f09c81458e9311d.zip",
+                "reference": "a7ddac8d052b2acca6f6fc9a9f09c81458e9311d",
                 "shasum": ""
             },
             "require": {
@@ -253,7 +254,7 @@
                 "php",
                 "tool"
             ],
-            "time": "2017-10-23 16:35:45"
+            "time": "2017-10-31 09:59:33"
         },
         {
             "name": "inhere/middleware",
@@ -261,12 +262,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inhere/php-middleware.git",
-                "reference": "44820fc2566f9c59e0b512efdd9e28ce07e472c4"
+                "reference": "83917feb32e5a49b274274c5c63673df4a412d78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/inhere/php-middleware/44820fc2566f9c59e0b512efdd9e28ce07e472c4.zip",
-                "reference": "44820fc2566f9c59e0b512efdd9e28ce07e472c4",
+                "url": "https://files.phpcomposer.com/files/inhere/php-middleware/83917feb32e5a49b274274c5c63673df4a412d78.zip",
+                "reference": "83917feb32e5a49b274274c5c63673df4a412d78",
                 "shasum": ""
             },
             "require": {
@@ -303,7 +304,7 @@
                 "psr-15",
                 "psr-7"
             ],
-            "time": "2017-10-22 15:23:54"
+            "time": "2017-10-27 08:27:55"
         },
         {
             "name": "inhere/php-validate",
@@ -348,7 +349,7 @@
                 "library",
                 "validate"
             ],
-            "time": "2017-09-26T14:56:40+00:00"
+            "time": "2017-09-26 14:56:40"
         },
         {
             "name": "inhere/server",
@@ -356,12 +357,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inhere/php-server.git",
-                "reference": "b39ad837ce40796c1fe8423921be3242028d7e73"
+                "reference": "40c68b50b2156aad261961336a96e19908664bc8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/inhere/php-server/b39ad837ce40796c1fe8423921be3242028d7e73.zip",
-                "reference": "b39ad837ce40796c1fe8423921be3242028d7e73",
+                "url": "https://files.phpcomposer.com/files/inhere/php-server/40c68b50b2156aad261961336a96e19908664bc8.zip",
+                "reference": "40c68b50b2156aad261961336a96e19908664bc8",
                 "shasum": ""
             },
             "require": {
@@ -401,7 +402,7 @@
                 "udp",
                 "websocket"
             ],
-            "time": "2017-10-23 02:06:53"
+            "time": "2017-10-30 03:41:00"
         },
         {
             "name": "inhere/simple-active-record",
@@ -409,12 +410,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inhere/php-simple-activeRecord.git",
-                "reference": "8c8db4d1ecf15e1259c95a3ea66d7a6317297c0b"
+                "reference": "57129641719df82adad6e71a58d0141da61b83d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/inhere/php-simple-activeRecord/8c8db4d1ecf15e1259c95a3ea66d7a6317297c0b.zip",
-                "reference": "8c8db4d1ecf15e1259c95a3ea66d7a6317297c0b",
+                "url": "https://files.phpcomposer.com/files/inhere/php-simple-activeRecord/57129641719df82adad6e71a58d0141da61b83d2.zip",
+                "reference": "57129641719df82adad6e71a58d0141da61b83d2",
                 "shasum": ""
             },
             "require": {
@@ -456,7 +457,7 @@
                 "php",
                 "tool"
             ],
-            "time": "2017-10-23 16:35:09"
+            "time": "2017-10-26 02:31:26"
         },
         {
             "name": "inhere/sroute",
@@ -558,7 +559,7 @@
                 "templating",
                 "views"
             ],
-            "time": "2016-12-28T00:14:17+00:00"
+            "time": "2016-12-28 00:14:17"
         },
         {
             "name": "monolog/monolog",
@@ -636,7 +637,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2017-06-19T01:22:40+00:00"
+            "time": "2017-06-19 01:22:40"
         },
         {
             "name": "overtrue/pinyin",
@@ -681,7 +682,7 @@
                 "Pinyin",
                 "cn2pinyin"
             ],
-            "time": "2017-07-10T07:20:01+00:00"
+            "time": "2017-07-10 07:20:01"
         },
         {
             "name": "phpfastcache/phpfastcache",
@@ -777,7 +778,7 @@
                 "zend memory cache",
                 "zend server"
             ],
-            "time": "2017-10-19T19:34:36+00:00"
+            "time": "2017-10-19 19:34:36"
         },
         {
             "name": "psr/cache",
@@ -823,7 +824,7 @@
                 "psr",
                 "psr-6"
             ],
-            "time": "2016-08-06T20:24:11+00:00"
+            "time": "2016-08-06 20:24:11"
         },
         {
             "name": "psr/container",
@@ -872,7 +873,7 @@
                 "container-interop",
                 "psr"
             ],
-            "time": "2017-02-14T16:28:37+00:00"
+            "time": "2017-02-14 16:28:37"
         },
         {
             "name": "psr/http-message",
@@ -922,7 +923,7 @@
                 "request",
                 "response"
             ],
-            "time": "2016-08-06T14:39:51+00:00"
+            "time": "2016-08-06 14:39:51"
         },
         {
             "name": "psr/log",
@@ -969,7 +970,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-10-10T12:19:37+00:00"
+            "time": "2016-10-10 12:19:37"
         },
         {
             "name": "psr/simple-cache",
@@ -1017,7 +1018,7 @@
                 "psr-16",
                 "simple-cache"
             ],
-            "time": "2017-01-02T13:31:39+00:00"
+            "time": "2017-01-02 13:31:39"
         },
         {
             "name": "symfony/process",
@@ -1066,7 +1067,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2017-10-02T06:42:24+00:00"
+            "time": "2017-10-02 06:42:24"
         },
         {
             "name": "windwalker/cache",
@@ -1113,7 +1114,7 @@
                 "framework",
                 "windwalker"
             ],
-            "time": "2017-06-25T15:37:39+00:00"
+            "time": "2017-06-25 15:37:39"
         },
         {
             "name": "windwalker/compare",
@@ -1157,7 +1158,7 @@
                 "framework",
                 "windwalker"
             ],
-            "time": "2017-06-25T15:37:39+00:00"
+            "time": "2017-06-25 15:37:39"
         },
         {
             "name": "windwalker/query",
@@ -1203,7 +1204,7 @@
                 "query",
                 "windwalker"
             ],
-            "time": "2017-10-16T08:38:13+00:00"
+            "time": "2017-10-16 08:38:13"
         }
     ],
     "packages-dev": [
@@ -1251,7 +1252,7 @@
                 "print",
                 "tool"
             ],
-            "time": "2017-10-23T06:38:31+00:00"
+            "time": "2017-10-23 06:38:31"
         }
     ],
     "aliases": [],
