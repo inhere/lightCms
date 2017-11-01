@@ -19,7 +19,9 @@ class PluginController extends Controller
     protected static $description = 'The plugin manage helper tool. plugin create,pack,publish,install,uninstall';
 
     /**
-     * create a new plugin
+     * create a new plugin package
+     * @options
+     *  --name  The new plugin name
      */
     public function createCommand()
     {
