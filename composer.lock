@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "48c716cf6afb450fc960d99e6394bff9",
-    "content-hash": "865d2936ce030a0961707baef6552a28",
+    "hash": "d491f6d99a175a3302946a1f2e8917a8",
+    "content-hash": "3b233ed37502c924dc023be8433b4f5b",
     "packages": [
         {
             "name": "guzzlehttp/promises",
@@ -105,6 +105,51 @@
                 "library"
             ],
             "time": "2017-10-31 02:12:11"
+        },
+        {
+            "name": "inhere/database",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/inhere/php-database",
+                "reference": "9d06c6729afa9b58d6ea8c1591ce802783dc0b99"
+            },
+            "require": {
+                "inhere/library": "dev-master",
+                "php": ">=7.0.0"
+            },
+            "suggest": {
+                "inhere/console": "a lightweight php console application library.",
+                "inhere/event": "the event manager",
+                "inhere/http": "Very lightweight PSR-7 implements http message component",
+                "inhere/sroute": "Very fast php router"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Database\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "inhere",
+                    "email": "in.798@qq.com",
+                    "homepage": "http://www.yzone.net/"
+                }
+            ],
+            "description": "a simple database library of the php",
+            "homepage": "https://github.com/inhere/php-database",
+            "keywords": [
+                "library",
+                "mysql",
+                "pdo",
+                "php",
+                "tool"
+            ],
+            "time": "2017-11-02 10:05:53"
         },
         {
             "name": "inhere/event",
@@ -410,12 +455,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/inhere/php-simple-activeRecord.git",
-                "reference": "57129641719df82adad6e71a58d0141da61b83d2"
+                "reference": "630b09268f30073fc756d0c9ff6ce5086e054e70"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/inhere/php-simple-activeRecord/57129641719df82adad6e71a58d0141da61b83d2.zip",
-                "reference": "57129641719df82adad6e71a58d0141da61b83d2",
+                "url": "https://files.phpcomposer.com/files/inhere/php-simple-activeRecord/630b09268f30073fc756d0c9ff6ce5086e054e70.zip",
+                "reference": "630b09268f30073fc756d0c9ff6ce5086e054e70",
                 "shasum": ""
             },
             "require": {
@@ -457,7 +502,7 @@
                 "php",
                 "tool"
             ],
-            "time": "2017-10-26 02:31:26"
+            "time": "2017-11-02 01:50:14"
         },
         {
             "name": "inhere/sroute",
@@ -1260,6 +1305,7 @@
     "stability-flags": {
         "inhere/library": 20,
         "inhere/console": 20,
+        "inhere/database": 20,
         "inhere/sroute": 20,
         "inhere/event": 20,
         "inhere/http": 20,
