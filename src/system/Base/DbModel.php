@@ -6,15 +6,15 @@
  * Time: 18:06
  */
 
-namespace App\Model;
+namespace Micro\Base;
 
 use SimpleAR\LiteRecordModel;
 
 /**
- * Class DefaultDbModel
- * @package App\Model
+ * Class DbModel
+ * @package Micro\Base
  */
-class DefaultDbModel extends LiteRecordModel
+abstract class DbModel extends LiteRecordModel
 {
     public static function getDb()
     {

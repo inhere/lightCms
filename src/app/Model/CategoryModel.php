@@ -8,11 +8,13 @@
 
 namespace App\Model;
 
+use Micro\Base\DbModel;
+
 /**
  * Class CategoryModel
  * @package App\Model
  */
-class CategoryModel extends DefaultDbModel
+class CategoryModel extends DbModel
 {
     protected static $pkName = 'cate_ID';
 
