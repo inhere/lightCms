@@ -10,9 +10,10 @@
 //use App\Console\Commands\PackCommand;
 
 $app->commands([
-    'test' => function () {
+    'demo' => function () {
         echo 'test';
     },
+    App\Console\Commands\TestCommand::class,
 //    'demo' => \App\console\commands\DemoCommand::class,
     //'book:build' => \App\console\commands\BuildCommand::class,
 //    PackCommand::class,

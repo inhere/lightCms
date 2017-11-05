@@ -44,5 +44,19 @@ return [
             'target' => Pinyin::class,
             // '_args' => [ MemoryFileDictLoader::class ],
         ],
+        'db' => [
+            'target' => Inhere\Library\Components\DatabaseClient::class,
+            '_args' => [
+                [
+                    'debug' => 1,
+                    'host' => 'localhost',
+                    'port' => '3306',
+                    'user' => 'root',
+                    'password' => 'root',
+                    'database' => 'zblog',
+                    'tablePrefix' => 'zbp_',
+                ]
+            ]
+        ]
     ],
 ];

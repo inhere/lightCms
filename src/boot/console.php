@@ -16,6 +16,9 @@ $di->set('config', function () {
     );
 });
 
+// load services from config
+$di->sets($di['config']->remove('services'));
+
 $app = new App($di);
 
 require dirname(__DIR__) . '/app/Console/routes.php';
