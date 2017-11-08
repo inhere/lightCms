@@ -16,7 +16,7 @@ interface PluginInterface
 {
     public function init();
 
-    public function load();
+//    public function load();
 
     public function run();
 

@@ -8,13 +8,13 @@
 
 namespace Micro\Plugins\SiteMap;
 
-use Micro\Web\AloneAction;
+use Micro\Plugins\AbstractPlugin;
 
 /**
  * Class SiteMap
  * @package Micro\Components
  */
-class SiteMap extends AloneAction
+class SiteMap extends AbstractPlugin
 {
     public function run()
     {

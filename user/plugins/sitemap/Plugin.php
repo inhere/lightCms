@@ -8,7 +8,7 @@
 
 namespace Micro\Plugins\SiteMap;
 
-use Micro\Base\AbstractPlugin;
+
 use Micro\Web\AloneAction;
 
 /**
